@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mark Tulloch — Conscious Systems · Bali AI Consultant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&family=Cinzel:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --ink: #0e0e0e;
+      --bone: #f0ebe1;
+      --parchment: #e8e0d0;
+      --gold: #b8933a;
+      --gold-light: #d4a84b;
+      --green-deep: #1a3328;
+      --green-mid: #2a5040;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--ink); color: var(--bone); font-family: 'Cormorant Garamond', serif; overflow-x: hidden; cursor: none; }
+    .cursor { position: fixed; top:0; left:0; width:10px; height:10px; background:var(--gold); border-radius:50%; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); mix-blend-mode:difference; }
+    .cursor-ring { position:fixed; top:0; left:0; width:36px; height:36px; border:1px solid var(--gold-light); border-radius:50%; pointer-events:none; z-index:9998; transform:translate(-50%,-50%); opacity:0.5; transition: transform 0.1s linear; }
+    body::before { content:''; position:fixed; inset:0; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E"); opacity:0.035; pointer-events:none; z-index:10000; }
+
+    /* NAV */
+    nav { position:fixed; top:0; left:0; right:0; z-index:1000; padding:1.5rem 4rem; display:flex; align-items:center; justify-content:space-between; background:linear-gradient(to bottom,rgba(14,14,14,0.97),transparent); }
+    .nav-brand { display:flex; align-items:center; gap:1rem; text-decoration:none; }
+    .nav-brand img { width:40px; height:40px; border-radius:50%; object-fit:cover; }
+    .nav-logo { font-family:'Cinzel',serif; font-size:0.8rem; letter-spacing:0.2em; color:var(--gold); }
+    .nav-links { display:flex; gap:2.5rem; list-style:none; }
+    .nav-links a { font-family:'DM Mono',monospace; font-size:0.68rem; letter-spacing:0.15em; color:var(--bone); text-decoration:none; opacity:0.6; transition: opacity 0.2s, color 0.2s; }
+    .nav-links a:hover { opacity:1; color:var(--gold-light); }
+
+    /* HERO */
+    #hero { min-height:100vh; display:grid; grid-template-columns:1fr 1fr; position:relative; overflow:hidden; }
+    .hero-left { display:flex; flex-direction:column; justify-content:center; padding:10rem 4rem 6rem; position:relative; z-index:2; }
+    .hero-eyebrow { font-family:'DM Mono',monospace; font-size:0.63rem; letter-spacing:0.3em; color:var(--gold); text-transform:uppercase; margin-bottom:2rem; opacity:1; }
+    h1 { font-family:'Cormorant Garamond',serif; font-size:clamp(3.2rem,5.5vw,5.5rem); font-weight:300; line-height:1.05; opacity:1; }
+    h1 em { font-style:italic; color:var(--gold-light); }
+    .hero-sub { margin-top:2rem; font-size:1.2rem; font-weight:300; font-style:italic; color:var(--parchment); opacity:1; max-width:38ch; line-height:1.6; }
+    .hero-ctas { margin-top:3rem; display:flex; gap:1.2rem; flex-wrap:wrap; opacity:1; }
+    .hero-right { position:relative; overflow:hidden; }
+    .hero-bg-img { position:absolute; inset:0; background: linear-gradient(to right,rgba(14,14,14,1) 0%,rgba(14,14,14,0.2) 35%,rgba(14,14,14,0.05) 100%), url("img18.jpg") center/cover no-repeat; }
+    .hero-grid { position:absolute; inset:0; background-image:linear-gradient(rgba(184,147,58,0.05) 1px,transparent 1px),linear-gradient(90deg,rgba(184,147,58,0.05) 1px,transparent 1px); background-size:60px 60px; }
+    .hero-mark-photo { position:absolute; bottom:0; right:0; width:55%; height:90%; object-fit:cover; object-position:center top; opacity:0.7; mask-image:linear-gradient(to left,rgba(0,0,0,0.8) 60%,transparent 100%),linear-gradient(to top,transparent 0%,black 15%); -webkit-mask-image:linear-gradient(to left,rgba(0,0,0,0.9) 50%,transparent 100%); }
+    .hero-stats { position:absolute; bottom:3rem; left:4rem; display:flex; gap:3rem; opacity:1; }
+    .hero-stat .num { font-family:'Cinzel',serif; font-size:1.8rem; color:var(--gold-light); display:block; }
+    .hero-stat .label { font-family:'DM Mono',monospace; font-size:0.58rem; letter-spacing:0.2em; color:rgba(240,235,225,0.45); text-transform:uppercase; }
+
+    /* BUTTONS */
+    .btn-primary { display:inline-block; padding:0.9rem 2.2rem; border:1px solid var(--gold); color:var(--gold); font-family:'DM Mono',monospace; font-size:0.7rem; letter-spacing:0.2em; text-decoration:none; text-transform:uppercase; position:relative; overflow:hidden; }
+    .btn-primary::before { content:''; position:absolute; inset:0; background:var(--gold); transform:scaleX(0); transform-origin:left; transition: transform 0.3s ease; }
+    .btn-primary:hover::before { transform:scaleX(1); }
+    .btn-primary span { position:relative; z-index:1; }
+    .btn-primary:hover span { color:var(--ink); }
+    .btn-ghost { display:inline-block; padding:0.9rem 2.2rem; border:1px solid rgba(240,235,225,0.2); color:var(--parchment); font-family:'DM Mono',monospace; font-size:0.7rem; letter-spacing:0.2em; text-decoration:none; text-transform:uppercase; transition: border-color 0.2s, color 0.2s; }
+    .btn-ghost:hover { border-color:var(--bone); color:var(--bone); }
+
+    /* DIVIDER */
+    .divider { display:flex; align-items:center; gap:1.5rem; padding:0 4rem; }
+    .divider-line { flex:1; height:1px; background:rgba(184,147,58,0.15); }
+    .divider-glyph { font-family:'Cinzel',serif; font-size:0.75rem; color:var(--gold); letter-spacing:0.3em; }
+
+    /* SECTIONS */
+    section { padding:7rem 4rem; position:relative; }
+    .section-label { font-family:'DM Mono',monospace; font-size:0.6rem; letter-spacing:0.3em; color:var(--gold); text-transform:uppercase; margin-bottom:1.2rem; display:flex; align-items:center; gap:0.8rem; }
+    .section-label::before { content:''; display:inline-block; width:25px; height:1px; background:var(--gold); }
+    h2 { font-family:'Cormorant Garamond',serif; font-size:clamp(2.2rem,3.8vw,3.8rem); font-weight:300; line-height:1.1; color:var(--bone); }
+    h2 em { font-style:italic; color:var(--gold-light); }
+
+    /* ABOUT */
+    #about { background:var(--ink); display:grid; grid-template-columns:1fr 1fr; gap:5rem; align-items:start; }
+    .about-text p { margin-top:1.5rem; font-size:1.1rem; font-weight:300; line-height:1.8; color:rgba(240,235,225,0.75); max-width:50ch; }
+    .about-quote { margin-top:2rem; padding:1.2rem 0 1.2rem 1.8rem; border-left:2px solid var(--gold); font-size:1.3rem; font-style:italic; color:var(--gold-light); line-height:1.5; }
+    .about-right { display:flex; flex-direction:column; gap:1rem; }
+    .about-img-grid { display:grid; grid-template-columns:1fr 1fr; gap:0.8rem; }
+    .about-img-card { position:relative; overflow:hidden; }
+    .about-img-card img { width:100%; aspect-ratio:1; object-fit:cover; object-position:center top; display:block; filter:grayscale(15%) contrast(1.05); transition: transform 0.4s ease; }
+    .about-img-card:hover img { transform:scale(1.04); }
+    .about-img-card .cap { position:absolute; bottom:0; left:0; right:0; padding:0.6rem 0.8rem; background:linear-gradient(to top,rgba(14,14,14,0.85),transparent); font-family:'DM Mono',monospace; font-size:0.52rem; letter-spacing:0.2em; color:var(--gold); }
+    .about-cafe-img { position:relative; overflow:hidden; }
+    .about-cafe-img img { width:100%; height:220px; object-fit:cover; object-position:center 30%; display:block; transition: transform 0.4s ease; }
+    .about-cafe-img:hover img { transform:scale(1.03); }
+    .about-cafe-img .cap { position:absolute; bottom:0; left:0; right:0; padding:0.8rem 1rem; background:linear-gradient(to top,rgba(14,14,14,0.9),transparent); font-family:'DM Mono',monospace; font-size:0.52rem; letter-spacing:0.2em; color:var(--gold); }
+
+    /* PILLARS */
+    .pillars-wrap { margin-top:1rem; display:grid; gap:1rem; }
+    .pillar { padding:1.2rem 1.5rem; border:1px solid rgba(184,147,58,0.12); background:rgba(184,147,58,0.02); position:relative; overflow:hidden; transition: border-color 0.2s, background 0.2s; }
+    .pillar::before { content:''; position:absolute; top:0; left:0; width:2px; height:0; background:var(--gold); transition: height 0.3s ease; }
+    .pillar:hover::before { height:100%; }
+    .pillar:hover { border-color:rgba(184,147,58,0.3); background:rgba(184,147,58,0.05); }
+    .pillar-num { font-family:'DM Mono',monospace; font-size:0.55rem; letter-spacing:0.2em; color:var(--gold); }
+    .pillar h3 { font-family:'Cormorant Garamond',serif; font-size:1.1rem; font-weight:400; color:var(--bone); margin-top:0.2rem; }
+    .pillar p { font-size:0.88rem; line-height:1.55; color:rgba(240,235,225,0.5); margin-top:0.3rem; }
+
+    /* CONSCIOUS SYSTEMS */
+    #cs { background:var(--green-deep); overflow:hidden; position:relative; }
+    #cs::before { content:'CS'; position:absolute; font-family:'Cinzel',serif; font-size:28vw; color:rgba(255,255,255,0.02); top:-5%; right:-5%; pointer-events:none; line-height:1; }
+    .cs-top { display:grid; grid-template-columns:1fr 1fr; gap:5rem; align-items:start; margin-bottom:4rem; }
+    .cs-logo-circle { width:160px; height:160px; border-radius:50%; overflow:hidden; border:2px solid rgba(184,147,58,0.3); margin-bottom:2rem; }
+    .cs-logo-circle img { width:100%; height:100%; object-fit:cover; }
+    .framework-steps { display:flex; flex-direction:column; gap:0; }
+    .step { display:grid; grid-template-columns:2.8rem 1fr; gap:1.2rem; padding:1.5rem 0; border-bottom:1px solid rgba(240,235,225,0.06); cursor:default; transition: padding-left 0.2s ease; }
+    .step:hover { padding-left:0.5rem; }
+    .step-num { font-family:'Cinzel',serif; font-size:1.4rem; color:rgba(184,147,58,0.25); transition: color 0.2s; line-height:1.1; }
+    .step:hover .step-num { color:var(--gold); }
+    .step-title { font-family:'Cormorant Garamond',serif; font-size:1.2rem; font-weight:400; color:var(--bone); }
+    .step-desc { font-size:0.9rem; line-height:1.6; color:rgba(240,235,225,0.45); margin-top:0.3rem; }
+    .cs-session-img { position:relative; overflow:hidden; }
+    .cs-session-img img { width:100%; height:320px; object-fit:cover; object-position:center top; display:block; }
+    .cs-session-img .overlay { position:absolute; inset:0; background:linear-gradient(to top,rgba(26,51,40,0.85) 0%,rgba(26,51,40,0.2) 60%,transparent 100%); }
+    .cs-session-caption { position:absolute; bottom:1.5rem; left:1.5rem; right:1.5rem; }
+    .cs-session-caption h4 { font-family:'Cormorant Garamond',serif; font-size:1.3rem; color:var(--bone); font-style:italic; }
+    .cs-session-caption p { font-family:'DM Mono',monospace; font-size:0.58rem; letter-spacing:0.2em; color:var(--gold); margin-top:0.3rem; }
+
+    /* CLARITY MAPPING promo cards */
+    .clarity-cards { display:grid; grid-template-columns:1fr 1fr; gap:1px; background:rgba(184,147,58,0.1); margin-top:3rem; }
+    .clarity-card { position:relative; overflow:hidden; height:340px; }
+    .clarity-card img { width:100%; height:100%; object-fit:cover; display:block; transition: transform 0.4s ease; }
+    .clarity-card:hover img { transform:scale(1.03); }
+    .clarity-card-overlay { position:absolute; inset:0; background:linear-gradient(to top,rgba(14,14,14,0.92) 0%,rgba(14,14,14,0.3) 50%,transparent 100%); }
+    .clarity-card-text { position:absolute; bottom:1.5rem; left:1.5rem; right:1.5rem; }
+    .clarity-card-text h4 { font-family:'Cormorant Garamond',serif; font-size:1.6rem; font-weight:300; color:var(--bone); font-style:italic; }
+    .clarity-card-text p { font-size:0.88rem; line-height:1.55; color:rgba(240,235,225,0.6); margin-top:0.3rem; }
+    .clarity-price { font-family:'DM Mono',monospace; font-size:0.6rem; letter-spacing:0.15em; color:var(--gold); margin-top:0.6rem; }
+
+    /* BALI AI */
+    #bai { background:#0b0b0b; }
+    .bai-header { display:grid; grid-template-columns:auto 1fr; gap:3rem; align-items:center; margin-bottom:4rem; }
+    .bai-logo-img { width:120px; height:120px; border-radius:50%; object-fit:cover; border:1px solid rgba(184,147,58,0.25); }
+    .bai-header p { font-size:1.1rem; line-height:1.8; color:rgba(240,235,225,0.7); margin-top:1rem; }
+    .bai-team-strip { display:grid; grid-template-columns:1fr 1fr; gap:1.5px; background:rgba(184,147,58,0.1); margin-bottom:3rem; }
+    .bai-team-cell { position:relative; overflow:hidden; height:260px; }
+    .bai-team-cell img { width:100%; height:100%; object-fit:cover; object-position:center top; display:block; transition: transform 0.4s ease; }
+    .bai-team-cell:hover img { transform:scale(1.03); }
+    .bai-team-cell .overlay { position:absolute; inset:0; background:linear-gradient(to top,rgba(14,14,14,0.8) 0%,transparent 60%); }
+    .bai-team-cell .cap { position:absolute; bottom:1rem; left:1.2rem; }
+    .bai-team-cell .cap span { font-family:'DM Mono',monospace; font-size:0.55rem; letter-spacing:0.2em; color:var(--gold); display:block; }
+    .bai-team-cell .cap p { font-family:'Cormorant Garamond',serif; font-size:1rem; color:var(--bone); font-style:italic; margin-top:0.2rem; }
+    .services-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5px; background:rgba(184,147,58,0.1); }
+    .service-card { background:var(--ink); padding:2rem 1.8rem; position:relative; overflow:hidden; transition: background 0.2s; }
+    .service-card::before { content:''; position:absolute; bottom:0; left:0; right:0; height:2px; background:linear-gradient(to right,transparent,var(--gold),transparent); transform:scaleX(0); transition: transform 0.3s ease; }
+    .service-card:hover::before { transform:scaleX(1); }
+    .service-card:hover { background:rgba(26,51,40,0.4); }
+    .service-icon { font-size:1.6rem; margin-bottom:1rem; display:block; }
+    .service-card h3 { font-family:'Cormorant Garamond',serif; font-size:1.2rem; font-weight:400; color:var(--bone); margin-bottom:0.6rem; }
+    .service-card p { font-size:0.88rem; line-height:1.6; color:rgba(240,235,225,0.4); }
+    .service-tag { display:inline-block; margin-top:1rem; font-family:'DM Mono',monospace; font-size:0.55rem; letter-spacing:0.18em; color:var(--gold); border:1px solid rgba(184,147,58,0.25); padding:0.2rem 0.6rem; }
+
+    /* RESULTS */
+    #results { background:var(--green-deep); padding:5rem 4rem; }
+    .results-row { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.05); }
+    .result-cell { padding:2.5rem 2rem; background:var(--green-deep); transition: background 0.2s; }
+    .result-cell:hover { background:var(--green-mid); }
+    .result-num { font-family:'Cinzel',serif; font-size:2.5rem; color:var(--gold-light); display:block; line-height:1; margin-bottom:0.4rem; }
+    .result-label { font-family:'DM Mono',monospace; font-size:0.58rem; letter-spacing:0.18em; color:rgba(240,235,225,0.4); text-transform:uppercase; display:block; line-height:1.5; }
+
+    /* BOOKS & MEDIA */
+    #media { background:#0d0d0d; }
+    .media-label-row { margin-bottom:3rem; }
+    .books-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1.5px; background:rgba(184,147,58,0.08); margin-bottom:3rem; }
+    .book-cell { position:relative; overflow:hidden; background:var(--ink); }
+    .book-cell img { width:100%; aspect-ratio:2/3; object-fit:cover; display:block; transition: transform 0.4s ease; }
+    .book-cell:hover img { transform:scale(1.03); }
+    .book-cell .book-info { padding:1rem; background:rgba(14,14,14,0.9); }
+    .book-cell .book-info h4 { font-family:'Cormorant Garamond',serif; font-size:1rem; color:var(--bone); font-style:italic; }
+    .book-cell .book-info p { font-family:'DM Mono',monospace; font-size:0.55rem; letter-spacing:0.15em; color:var(--gold); margin-top:0.3rem; }
+    .events-strip { display:grid; grid-template-columns:1fr 1fr; gap:1.5px; background:rgba(184,147,58,0.08); }
+    .event-cell { position:relative; overflow:hidden; height:320px; }
+    .event-cell img { width:100%; height:100%; object-fit:cover; object-position:center top; display:block; transition: transform 0.4s ease; }
+    .event-cell:hover img { transform:scale(1.02); }
+    .event-cell .overlay { position:absolute; inset:0; background:linear-gradient(to top,rgba(14,14,14,0.8) 0%,rgba(14,14,14,0.1) 60%,transparent 100%); }
+    .event-cell .cap { position:absolute; bottom:1.2rem; left:1.2rem; font-family:'DM Mono',monospace; font-size:0.58rem; letter-spacing:0.2em; color:var(--gold); }
+
+    /* CONTACT */
+    #contact { background:linear-gradient(135deg,var(--green-deep) 0%,#0d1a15 60%,var(--ink) 100%); text-align:center; padding:8rem 4rem; position:relative; overflow:hidden; }
+    #contact::before { content:''; position:absolute; inset:0; background-image:linear-gradient(rgba(184,147,58,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(184,147,58,0.04) 1px,transparent 1px); background-size:80px 80px; }
+    .contact-inner { position:relative; z-index:1; }
+    #contact h2 { margin:0 auto 1.2rem; text-align:center; }
+    #contact > .contact-inner > p { font-size:1.15rem; font-style:italic; color:rgba(240,235,225,0.6); max-width:42ch; margin:0 auto 2.5rem; line-height:1.7; }
+    .contact-cards { display:flex; justify-content:center; gap:1.2rem; flex-wrap:wrap; margin-top:2rem; }
+    .contact-card { padding:1.3rem 1.8rem; border:1px solid rgba(184,147,58,0.18); background:rgba(14,14,14,0.6); text-align:left; min-width:190px; transition: border-color 0.2s, background 0.2s; }
+    .contact-card:hover { border-color:var(--gold); background:rgba(14,14,14,0.9); }
+    .contact-card-label { font-family:'DM Mono',monospace; font-size:0.55rem; letter-spacing:0.25em; color:var(--gold); display:block; margin-bottom:0.4rem; }
+    .contact-card a, .contact-card span { font-size:0.9rem; color:var(--bone); text-decoration:none; opacity:0.8; }
+    .contact-card a:hover { opacity:1; color:var(--gold-light); }
+
+    /* FOOTER */
+    footer { background:var(--ink); padding:2rem 4rem; display:flex; align-items:center; justify-content:space-between; border-top:1px solid rgba(255,255,255,0.04); }
+    footer p { font-family:'DM Mono',monospace; font-size:0.58rem; letter-spacing:0.12em; color:rgba(240,235,225,0.2); }
+    .footer-mark { font-family:'Cinzel',serif; font-size:0.75rem; color:var(--gold); opacity:0.4; letter-spacing:0.3em; }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp { from { opacity:0; transform:translateY(22px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+    @keyframes gridShift { 0% { background-position:0 0; } 100% { background-position:60px 60px; } }
+    .reveal { opacity:0; transform:translateY(28px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity:1; transform:none; }
+    .reveal-delay-1 { transition-delay:0.15s; }
+    .reveal-delay-2 { transition-delay:0.3s; }
+
+    @media(max-width:900px) {
+      #hero { grid-template-columns:1fr; } .hero-right { display:none; }
+      .hero-left { padding:8rem 2rem 4rem; }
+      h1 { font-size:2.8rem; }
+      #about,.cs-top,.bai-header { grid-template-columns:1fr; gap:2.5rem; }
+      section { padding:5rem 2rem; } nav { padding:1.2rem 2rem; }
+      .nav-links { display:none; } .results-row { grid-template-columns:1fr 1fr; }
+      .services-grid,.books-grid { grid-template-columns:1fr 1fr; }
+      .clarity-cards,.events-strip,.bai-team-strip { grid-template-columns:1fr; }
+      footer { flex-direction:column; gap:0.8rem; text-align:center; }
+    }
+
+    /* Safety net: guarantee content is visible even if JS/IntersectionObserver fails */
+    .reveal, .reveal-delay-1, .reveal-delay-2, .reveal-delay-3 {
+      opacity: 1 !important;
+      transform: none !important;
+      visibility: visible !important;
+    }
+    section, #about, #cs, #bai, #results, #media, #contact, footer {
+      visibility: visible !important;
+    }
+  </style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-brand" href="#hero">
+    <img src="img0.jpg" alt="Bali AI Consultant" />
+    <span class="nav-logo">Mark Tulloch</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#about">Story</a></li>
+    <li><a href="#cs">Conscious Systems</a></li>
+    <li><a href="#bai">Bali AI</a></li>
+    <li><a href="#media">Books</a></li>
+    <li><a href="#contact">Connect</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-left">
+    <p class="hero-eyebrow">Mark Tulloch · Bali · Est. 2015</p>
+    <h1>From <em>Chaos</em><br>to <em>Clarity</em></h1>
+    <p class="hero-sub">35 years of hospitality mastery. A decade in Bali. Now deploying AI and consciousness as a unified operating system for people and businesses.</p>
+    <div class="hero-ctas">
+      <a href="#cs" class="btn-primary"><span>Conscious Systems</span></a>
+      <a href="#bai" class="btn-ghost">Bali AI Consulting</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-bg-img"></div>
+    <div class="hero-grid"></div>
+  </div>
+  <div class="hero-stats">
+    <div class="hero-stat"><span class="num">35</span><span class="label">Years Hospitality</span></div>
+    <div class="hero-stat"><span class="num">10+</span><span class="label">Years in Bali</span></div>
+    <div class="hero-stat"><span class="num">£1M+</span><span class="label">Venue Margins Built</span></div>
+    <div class="hero-stat"><span class="num">4</span><span class="label">Published Works</span></div>
+  </div>
+</section>
+
+<div class="divider"><div class="divider-line"></div><div class="divider-glyph">◆</div><div class="divider-line"></div></div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-text reveal">
+    <p class="section-label">The Story</p>
+    <h2>Built in the fire.<br><em>Refined</em> in the stillness.</h2>
+    <p>Mark Tulloch ran The Sussex Arms in Covent Garden — £50K a week, a team of thirty, the pulse of London's hospitality underground. Behind the success: an undiagnosed Bipolar I condition that would eventually take everything.</p>
+    <p>His rebuilding happened in Bali — through stillness, through 10 years as COO of Bali Realty, and through a radical personal framework that turned breakdown into blueprint. That framework became <em>Conscious Systems</em>. His hard-won AI expertise became <em>Bali AI Consultant</em>.</p>
+    <blockquote class="about-quote">"You're not broken. You're misaligned."</blockquote>
+    <div style="margin-top:2rem; position:relative; overflow:hidden; border:1px solid rgba(184,147,58,0.12);">
+      <img src="img1.jpg" alt="Mark Tulloch Fighter" style="width:100%; display:block;" />
+      <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(14,14,14,0.65) 0%,transparent 50%);"></div>
+      <div style="position:absolute;bottom:0.8rem;left:1rem;">
+        <span style="font-family:'DM Mono',monospace;font-size:0.55rem;letter-spacing:0.2em;color:var(--gold);">INDEPENDENCE BOXING DAY · BALI</span>
+      </div>
+    </div>
+  </div>
+  <div class="about-right reveal reveal-delay-1">
+    <div class="about-cafe-img">
+      <img src="img2.jpg" alt="Mark at work in Bali cafe" />
+      <div class="cap">MARK TULLOCH · WORKING IN BALI</div>
+    </div>
+    <div class="about-img-grid">
+      <div class="about-img-card">
+        <img src="img3.jpg" alt="Mark Tulloch ringside" />
+        <div class="cap">THE WARRIOR</div>
+      </div>
+      <div class="about-img-card">
+        <img src="img4.jpg" alt="Bali Realty COO" />
+        <div class="cap">COO · BALI REALTY</div>
+      </div>
+    </div>
+    <div class="pillars-wrap">
+      <div class="pillar"><p class="pillar-num">01 / Identity</p><h3>Street Code → Soul Code</h3><p>Rewriting survival-mode operating systems into aligned, sustainable leadership identities.</p></div>
+      <div class="pillar"><p class="pillar-num">02 / Intelligence</p><h3>AI as a Force Multiplier</h3><p>Real-world deployment of AI tools across hospitality, property, media and consulting.</p></div>
+      <div class="pillar"><p class="pillar-num">03 / Infrastructure</p><h3>Systems That Hold</h3><p>SOPs, brand systems, legal structures and team frameworks built to run without heroics.</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><div class="divider-line"></div><div class="divider-glyph">◆</div><div class="divider-line"></div></div>
+
+<!-- CONSCIOUS SYSTEMS -->
+<section id="cs" style="background:var(--green-deep);">
+  <div class="cs-top">
+    <div class="reveal">
+      <div class="cs-logo-circle"><img src="img5.jpg" alt="Conscious Systems" /></div>
+      <p class="section-label">Conscious Systems</p>
+      <h2>A new <em>operating system</em> for founders, leaders &amp; warriors.</h2>
+      <div class="framework-steps" style="margin-top:2rem;">
+        <div class="step"><span class="step-num">01</span><div><p class="step-title">Stillness as a Superpower</p><p class="step-desc">Power without noise. Stillness is the stable foundation everything else rests on.</p></div></div>
+        <div class="step"><span class="step-num">02</span><div><p class="step-title">Map Your Patterns</p><p class="step-desc">Track triggers, cycles, and warning signs like a systems engineer reading telemetry.</p></div></div>
+        <div class="step"><span class="step-num">03</span><div><p class="step-title">The Crash is Sacred</p><p class="step-desc">Lows aren't failures — they're data. The difference between Bipolar and Bipolar Aware.</p></div></div>
+        <div class="step"><span class="step-num">04</span><div><p class="step-title">Awareness is Your Weapon</p><p class="step-desc">Understand your position on the energy spectrum and act with intention.</p></div></div>
+        <div class="step"><span class="step-num">05</span><div><p class="step-title">Your Path Becomes Your Proof</p><p class="step-desc">The evidence isn't a diagnosis — it's the life you build.</p></div></div>
+      </div>
+    </div>
+    <div class="reveal reveal-delay-1">
+      <div class="cs-session-img">
+        <img src="img6.jpg" alt="Clarity Mapping session" />
+        <div class="overlay"></div>
+        <div class="cs-session-caption">
+          <h4>"This isn't therapy. It's transformation without attachment."</h4>
+          <p>CLARITY MAPPING SESSION · IN PERSON OR ONLINE</p>
+        </div>
+      </div>
+      <div style="margin-top:1.5rem; padding:1.5rem; border:1px solid rgba(240,235,225,0.08); background:rgba(240,235,225,0.03);">
+        <p style="font-size:0.95rem; line-height:1.7; color:rgba(240,235,225,0.6); font-style:italic;">"Even the most chaotic minds carry genius. The work is not to fix the chaos — it is to find the engineer inside it."</p>
+        <p style="margin-top:0.8rem; font-family:'DM Mono',monospace; font-size:0.58rem; letter-spacing:0.2em; color:var(--gold);">— Mark Tulloch · Bipolar Aware</p>
+      </div>
+    </div>
+  </div>
+  <div class="clarity-cards reveal">
+    <div class="clarity-card">
+      <img src="img7.jpg" alt="Clarity Mapping Bali" />
+      <div class="clarity-card-overlay"></div>
+      <div class="clarity-card-text">
+        <h4>Clarity Mapping</h4>
+        <p>60-minute open-hearted session. You speak. I transcribe. Together we create a map back to you.</p>
+        <p class="clarity-price">IN-PERSON (BALI): IDR 750K–1.2M &nbsp;·&nbsp; ONLINE: AUD $88–$222</p>
+      </div>
+    </div>
+    <div class="clarity-card">
+      <img src="img8.jpg" alt="Clarity Mapping online" />
+      <div class="clarity-card-overlay"></div>
+      <div class="clarity-card-text">
+        <h4>Online Sessions</h4>
+        <p>Emotional themes · Action plan · Personalized meditation. This isn't therapy. It's transformation.</p>
+        <p class="clarity-price">BOOK VIA: mark@baliaiconsultant.com</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><div class="divider-line"></div><div class="divider-glyph">◆</div><div class="divider-line"></div></div>
+
+<!-- BALI AI -->
+<section id="bai" style="background:#0b0b0b;">
+  <div class="bai-header reveal">
+    <img src="img9.jpg" alt="Bali AI Consultant" class="bai-logo-img" />
+    <div>
+      <p class="section-label">Bali AI Consultant</p>
+      <h2>AI that <em>actually</em> works inside real businesses.</h2>
+      <p>Not theory. Not demos. Deployed AI workflows that replaced a full marketing agency, cut costs by 80%, and scaled output across hospitality, property, media and consulting operations in Bali. Mark is a founding member of the Bali AI Founders Club and hosts the weekly Bali AI Investors Club.</p>
+      <div style="margin-top:2rem;"><a href="mailto:mark@baliaiconsultant.com" class="btn-primary"><span>Book a Consultation</span></a></div>
+    </div>
+  </div>
+  <div class="bai-team-strip reveal">
+    <div class="bai-team-cell">
+      <img src="img10.jpg" alt="Mark with team" />
+      <div class="overlay"></div>
+      <div class="cap"><span>AI TEAM TRAINING</span><p>Building systems with people, not around them</p></div>
+    </div>
+    <div class="bai-team-cell">
+      <img src="img11.jpg" alt="Bali team" />
+      <div class="overlay"></div>
+      <div class="cap"><span>CULTURE FIRST</span><p>Teams that perform because they believe</p></div>
+    </div>
+  </div>
+  <div class="services-grid reveal">
+    <div class="service-card"><span class="service-icon">⚙️</span><h3>AI Systems Design</h3><p>End-to-end AI workflow architecture — from prompt systems to content pipelines and operational SOPs.</p><span class="service-tag">Strategy + Build</span></div>
+    <div class="service-card"><span class="service-icon">🏨</span><h3>Hospitality AI</h3><p>Menus, reels, brand assets, staff training and marketing systems built with AI — faster and consistent.</p><span class="service-tag">Hospitality</span></div>
+    <div class="service-card"><span class="service-icon">🏡</span><h3>Property Intelligence</h3><p>AI-assisted deal analysis, buyer profiling, and reporting via the Bali Property Intelligence Network.</p><span class="service-tag">BPIN</span></div>
+    <div class="service-card"><span class="service-icon">🎬</span><h3>AI Content &amp; Media</h3><p>Video podcasts, NotebookLM Audio Overviews, HeyGen AI presenters — content at volume.</p><span class="service-tag">Media</span></div>
+    <div class="service-card"><span class="service-icon">🧠</span><h3>Smart Venue Workshop</h3><p>A structured program helping hospitality operators save 20–40 hours/month through AI.</p><span class="service-tag">Workshop</span></div>
+    <div class="service-card"><span class="service-icon">🌐</span><h3>Web &amp; Brand Systems</h3><p>From zero to deployed: full website builds, brand identities and digital infrastructure.</p><span class="service-tag">Digital</span></div>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section id="results" style="background:var(--green-deep); padding:5rem 4rem;">
+  <div class="results-row reveal">
+    <div class="result-cell"><span class="result-num">35</span><span class="result-label">Years Building<br>World-Class Venues</span></div>
+    <div class="result-cell"><span class="result-num">£1M+</span><span class="result-label">Net Profit Margin<br>Delivered in UK</span></div>
+    <div class="result-cell"><span class="result-num">COO</span><span class="result-label">10 Years Leading<br>Bali Realty</span></div>
+    <div class="result-cell"><span class="result-num">4</span><span class="result-label">Published Books<br>&amp; Albums</span></div>
+  </div>
+</section>
+
+<div class="divider"><div class="divider-line"></div><div class="divider-glyph">◆</div><div class="divider-line"></div></div>
+
+<!-- BOOKS & MEDIA -->
+<section id="media" style="background:#0d0d0d;">
+  <div class="media-label-row reveal">
+    <p class="section-label">Published Works</p>
+    <h2>The <em>books</em> that systems built.</h2>
+  </div>
+  <div class="books-grid reveal">
+    <div class="book-cell">
+      <img src="img12.jpg" alt="The Pub, The Punch, and The Path" />
+      <div class="book-info"><h4>The Pub, The Punch, and The Path</h4><p>A TRUE STORY OF VIOLENCE, JUSTICE &amp; THE MAKING OF A STREET WARRIOR</p></div>
+    </div>
+    <div class="book-cell">
+      <img src="img13.jpg" alt="Bipolar Aware" />
+      <div class="book-info"><h4>Bipolar Aware</h4><p>BREAKING FREE, BECOMING · AVAILABLE ON AMAZON KINDLE</p></div>
+    </div>
+    <div class="book-cell">
+      <img src="img14.jpg" alt="Still Here" />
+      <div class="book-info"><h4>Still Here</h4><p>A MEMOIR · MARK TULLOCH</p></div>
+    </div>
+    <div class="book-cell" style="display:flex; flex-direction:column; justify-content:center; align-items:center; padding:2rem; background:rgba(26,51,40,0.3);">
+      <img src="img15.jpg" alt="The War Within" style="width:100%; aspect-ratio:1; object-fit:contain; margin-bottom:0;" />
+      <div class="book-info" style="width:100%;"><h4>The War Within</h4><p>COMING SOON · WRITTEN BY MARK TULLOCH · PRODUCED BY SHAUN SEERS</p></div>
+    </div>
+  </div>
+  <div class="events-strip reveal">
+    <div class="event-cell">
+      <img src="img16.jpg" alt="Bipolar Aware Launch" />
+      <div class="overlay"></div>
+      <div class="cap">TRIPLE LAUNCH NIGHT · SUNSHOOTERS · DEC 2025</div>
+    </div>
+    <div class="event-cell">
+      <img src="img17.jpg" alt="Launch Event" />
+      <div class="overlay"></div>
+      <div class="cap">STORY · MUSIC · COMMUNITY · KEROBOKAN BALI</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-inner">
+    <p class="section-label" style="justify-content:center;">Connect</p>
+    <h2>Ready for <em>clarity</em>?</h2>
+    <p>Whether you need an AI consultant for your Bali business, a Clarity Mapping session, or you want to explore what Conscious Systems can do for your team.</p>
+    <a href="mailto:mark@baliaiconsultant.com" class="btn-primary" style="display:inline-block; margin-bottom:3rem;"><span>Start the Conversation</span></a>
+    <div class="contact-cards">
+      <div class="contact-card"><span class="contact-card-label">Bali AI Consulting</span><a href="mailto:mark@baliaiconsultant.com">mark@baliaiconsultant.com</a></div>
+      <div class="contact-card"><span class="contact-card-label">Based In</span><span>Kerobokan, Bali, Indonesia</span></div>
+      <div class="contact-card"><span class="contact-card-label">AI Investors Club</span><span>Weekly · Sunshooters Bar</span></div>
+      <div class="contact-card"><span class="contact-card-label">YouTube</span><a href="https://youtube.com/@BaliAiConsultant" target="_blank">@BaliAiConsultant</a></div>
+      <div class="contact-card"><span class="contact-card-label">Books on Amazon</span><a href="https://www.amazon.com.au/dp/B064WVGFD6" target="_blank">Bipolar Aware →</a></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Mark Tulloch · Conscious Systems · Bali AI Consultant</p>
+  <span class="footer-mark">MT</span>
+  <p>Bali, Indonesia · mark@baliaiconsultant.com</p>
+</footer>
+
+<script>
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.left=mx+'px';cursor.style.top=my+'px';});
+  (function animRing(){rx+=(mx-rx)*0.12;ry+=(my-ry)*0.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing);})();
+  const obs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}}),{threshold:0.1});
+  document.querySelectorAll('.reveal').forEach(r=>obs.observe(r));
+</script>
+</body>
+</html>
