@@ -1,0 +1,919 @@
+<!DOCTYPE html><html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style rel="stylesheet" type="text/css">@charset "utf-8";
+
+@font-face { font-family: "Cormorant Garamond"; font-style: normal; font-weight: 400; font-display: swap; src: url("https://6abdbf58022ee0e80e74595a--aley-app.netlify.app/fonts/cormorant-garamond-latin-400-normal.woff2") format("woff2"); }
+
+@font-face { font-family: "Cormorant Garamond"; font-style: normal; font-weight: 500; font-display: swap; src: url("https://6abdbf58022ee0e80e74595a--aley-app.netlify.app/fonts/cormorant-garamond-latin-500-normal.woff2") format("woff2"); }
+
+@font-face { font-family: "Cormorant Garamond"; font-style: normal; font-weight: 600; font-display: swap; src: url("https://6abdbf58022ee0e80e74595a--aley-app.netlify.app/fonts/cormorant-garamond-latin-600-normal.woff2") format("woff2"); }
+
+@font-face { font-family: "Cormorant Garamond"; font-style: italic; font-weight: 400; font-display: swap; src: url("https://6abdbf58022ee0e80e74595a--aley-app.netlify.app/fonts/cormorant-garamond-latin-400-italic.woff2") format("woff2"); }
+
+@font-face { font-family: "Cormorant Garamond"; font-style: italic; font-weight: 500; font-display: swap; src: url("https://6abdbf58022ee0e80e74595a--aley-app.netlify.app/fonts/cormorant-garamond-latin-500-italic.woff2") format("woff2"); }
+
+@font-face { font-family: Jost; font-style: normal; font-weight: 300; font-display: swap; src: url("https://6abdbf58022ee0e80e74595a--aley-app.netlify.app/fonts/jost-latin-300-normal.woff2") format("woff2"); }
+
+@font-face { font-family: Jost; font-style: normal; font-weight: 400; font-display: swap; src: url("https://6abdbf58022ee0e80e74595a--aley-app.netlify.app/fonts/jost-latin-400-normal.woff2") format("woff2"); }
+
+@font-face { font-family: Jost; font-style: normal; font-weight: 500; font-display: swap; src: url("https://6abdbf58022ee0e80e74595a--aley-app.netlify.app/fonts/jost-latin-500-normal.woff2") format("woff2"); }
+
+:root { --cream: #F5F0E8; --dark: #1A1714; --dark-2: #221E1A; --dark-3: #2B2620; --gold: #C9A96E; --gold-light: #E8D5B0; --mid: #6B5E4E; --white: #FDFAF5; --line: rgba(201,169,110,.28); --line-soft: rgba(245,240,232,.12); --text: var(--cream); --muted: rgba(245,240,232,.68); --wa: #25D366; --serif: 'Cormorant Garamond',Georgia,'Times New Roman',serif; --sans: 'Jost','Helvetica Neue',Arial,sans-serif; --tabs-h: 52px; --bar-h: calc(64px + env(safe-area-inset-bottom)); }
+
+* { box-sizing: border-box; margin: 0px; padding: 0px; -webkit-tap-highlight-color: transparent; }
+
+html { text-size-adjust: 100%; scroll-behavior: smooth; }
+
+body { font-family: var(--sans); font-weight: 300; background: var(--dark); color: var(--text); line-height: 1.65; font-size: 15px; overflow-x: hidden; min-height: 100vh; }
+
+img { display: block; max-width: 100%; }
+
+a { color: inherit; }
+
+button { font-family: inherit; color: inherit; background: none; border: 0px; cursor: pointer; }
+
+h1, h2, h3, h4 { font-family: var(--serif); font-weight: 500; line-height: 1.1; }
+
+em, i { font-style: italic; color: var(--gold); }
+
+::selection { background: var(--gold); color: var(--dark); }
+
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+
+.hdr { position: sticky; top: 0px; z-index: 40; background: rgba(26, 23, 20, 0.94); backdrop-filter: blur(14px); padding-top: env(safe-area-inset-top); border-bottom: 1px solid var(--line-soft); }
+
+.brand { display: flex; align-items: center; justify-content: space-between; padding: 12px 18px 8px; }
+
+.brand-name { font-family: var(--serif); font-size: 1.45rem; letter-spacing: 0.05em; font-weight: 500; text-decoration: none; display: inline-flex; align-items: center; min-height: 44px; }
+
+.brand-name span { color: var(--gold); }
+
+.score { display: flex; align-items: baseline; gap: 5px; font-size: 0.62rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
+
+.score b { font-family: var(--serif); font-size: 1.25rem; font-weight: 500; color: var(--gold); letter-spacing: 0px; }
+
+.tabs { display: flex; overflow-x: auto; scrollbar-width: none; padding: 0px 10px; height: var(--tabs-h); }
+
+.tabs::-webkit-scrollbar { display: none; }
+
+.tab { flex: 0 0 auto; padding: 0px 14px; height: 100%; font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); position: relative; font-weight: 400; white-space: nowrap; display: flex; align-items: center; min-width: 44px; }
+
+.tab[aria-selected="true"] { color: var(--gold); }
+
+.tab[aria-selected="true"]::after { content: ""; position: absolute; left: 14px; right: 14px; bottom: 0px; height: 1px; background: var(--gold); }
+
+main { padding-bottom: calc(var(--bar-h) + 18px); }
+
+.panel { display: none; animation: 0.28s ease 0s 1 normal none running fade; }
+
+.panel.active { display: block; }
+
+@keyframes fade { 
+  0% { opacity: 0; transform: translateY(6px); }
+  100% { opacity: 1; transform: none; }
+}
+
+.wrap { padding: 0px 20px; }
+
+.section { padding: 34px 20px 8px; }
+
+.eyebrow { font-size: 0.62rem; letter-spacing: 0.24em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; font-weight: 400; }
+
+.h2 { font-size: 2rem; margin-bottom: 12px; letter-spacing: -0.01em; }
+
+.h3 { font-size: 1.45rem; margin-bottom: 6px; }
+
+.lead { color: var(--muted); font-size: 0.95rem; }
+
+p + p { margin-top: 10px; }
+
+.rule { width: 44px; height: 1px; background: var(--gold); margin: 16px 0px; }
+
+.center { text-align: center; }
+
+.center .rule { margin-left: auto; margin-right: auto; }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 9px; font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; padding: 0px 26px; height: 50px; text-decoration: none; font-weight: 400; transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.15s; white-space: nowrap; }
+
+.btn:active { transform: translateY(1px); }
+
+.btn-gold { background: var(--gold); color: var(--dark); }
+
+.btn-gold:hover { background: var(--gold-light); }
+
+.btn-outline { border: 1px solid rgba(245, 240, 232, 0.5); color: var(--cream); }
+
+.btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+.btn-gold-outline { border: 1px solid var(--gold); color: var(--gold); }
+
+.btn-block { width: 100%; }
+
+.btn-row { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
+
+.btn svg { width: 17px; height: 17px; flex: 0 0 auto; }
+
+.link { font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); text-decoration: none; border-bottom: 1px solid var(--line); padding-bottom: 3px; }
+
+.hero { position: relative; min-height: 520px; display: flex; align-items: flex-end; overflow: hidden; background: var(--dark-2); }
+
+.hero img { position: absolute; inset: 0px; width: 100%; height: 100%; object-fit: cover; opacity: 0.62; }
+
+.hero::after { content: ""; position: absolute; inset: 0px; background: linear-gradient(rgba(26, 23, 20, 0.15) 0%, rgba(26, 23, 20, 0.35) 45%, rgba(26, 23, 20, 0.97) 100%); }
+
+.hero-in { position: relative; z-index: 2; padding: 0px 22px 32px; width: 100%; }
+
+.hero h1 { font-size: 3.1rem; line-height: 0.98; margin: 8px 0px 14px; font-weight: 400; }
+
+.hero .sub { font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold-light); margin-bottom: 22px; }
+
+.hero .btn-row { margin-top: 0px; }
+
+.status { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 0px 20px; padding: 14px 16px; border: 1px solid var(--line); background: var(--dark-2); }
+
+.status .g { font-family: var(--serif); font-size: 1.25rem; color: var(--cream); line-height: 1.15; }
+
+.status .g small { display: block; font-family: var(--sans); font-size: 0.62rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin-top: 3px; }
+
+.status .t { text-align: right; font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+
+.status .t b { display: block; font-family: var(--serif); font-size: 1.3rem; font-weight: 500; color: var(--gold); letter-spacing: 0px; line-height: 1.1; }
+
+.pulse { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--wa); margin-right: 6px; box-shadow: rgba(37, 211, 102, 0.6) 0px 0px 0px 0px; animation: 2s ease 0s infinite normal none running pulse; vertical-align: middle; }
+
+@keyframes pulse { 
+  0% { box-shadow: rgba(37, 211, 102, 0.55) 0px 0px 0px 0px; }
+  70% { box-shadow: rgba(37, 211, 102, 0) 0px 0px 0px 8px; }
+  100% { box-shadow: rgba(37, 211, 102, 0) 0px 0px 0px 0px; }
+}
+
+.quick { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 18px 20px 0px; }
+
+.qa { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 14px 4px 12px; border: 1px solid var(--line-soft); background: var(--dark-2); text-decoration: none; font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); min-height: 74px; transition: border-color 0.2s; }
+
+.qa:hover { border-color: var(--gold); }
+
+.qa svg { width: 22px; height: 22px; stroke: var(--gold); fill: none; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
+
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 22px 20px 0px; }
+
+.stat { border: 1px solid var(--line); padding: 16px 8px; text-align: center; }
+
+.stat b { display: block; font-family: var(--serif); font-size: 2rem; font-weight: 500; color: var(--gold); line-height: 1; }
+
+.stat span { display: block; font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-top: 7px; }
+
+.hscroll { display: flex; gap: 12px; overflow-x: auto; padding: 18px 20px 6px; scroll-snap-type: x mandatory; scrollbar-width: none; }
+
+.hscroll::-webkit-scrollbar { display: none; }
+
+.mini { flex: 0 0 72%; scroll-snap-align: start; border: 1px solid var(--line-soft); background: var(--dark-2); text-decoration: none; color: inherit; }
+
+.mini .im { aspect-ratio: 4 / 3; overflow: hidden; background: var(--dark-3); }
+
+.mini img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+
+.mini:hover img { transform: scale(1.04); }
+
+.mini .b { padding: 14px 14px 16px; }
+
+.mini h3 { font-size: 1.3rem; margin-bottom: 4px; }
+
+.mini p { font-size: 0.8rem; color: var(--muted); line-height: 1.5; }
+
+.glyph { font-family: var(--serif); color: var(--gold); font-size: 1.4rem; line-height: 1; margin-bottom: 8px; }
+
+.svc { border: 1px solid var(--line-soft); background: var(--dark-2); margin: 0px 20px 16px; overflow: hidden; }
+
+.svc .im { aspect-ratio: 16 / 9; overflow: hidden; background: var(--dark-3); position: relative; }
+
+.svc .im img { width: 100%; height: 100%; object-fit: cover; }
+
+.svc .im .glyph { position: absolute; left: 14px; bottom: 10px; margin: 0px; font-size: 1.7rem; text-shadow: rgba(0, 0, 0, 0.7) 0px 2px 12px; }
+
+.svc .b { padding: 18px 18px 20px; }
+
+.svc h3 { font-size: 1.5rem; margin-bottom: 6px; }
+
+.svc p { font-size: 0.88rem; color: var(--muted); margin-bottom: 16px; }
+
+.svc .btn { height: 46px; }
+
+.villa { margin: 0px 20px 26px; border: 1px solid var(--line-soft); background: var(--dark-2); }
+
+.villa .main { aspect-ratio: 4 / 3; overflow: hidden; background: var(--dark-3); }
+
+.villa .main img { width: 100%; height: 100%; object-fit: cover; transition: opacity 0.3s; }
+
+.thumbs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; padding: 4px; }
+
+.thumbs button { aspect-ratio: 4 / 3; overflow: hidden; border: 1px solid transparent; background: var(--dark-3); padding: 0px; }
+
+.thumbs button.on { border-color: var(--gold); }
+
+.thumbs img { width: 100%; height: 100%; object-fit: cover; }
+
+.villa .b { padding: 18px 18px 22px; }
+
+.villa .loc { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+
+.villa h3 { font-size: 1.75rem; margin-bottom: 8px; }
+
+.villa p { font-size: 0.9rem; color: var(--muted); margin-bottom: 16px; }
+
+.villa .btn { height: 46px; }
+
+.note { margin: 0px 20px; padding: 20px; border: 1px dashed var(--line); text-align: center; }
+
+.note h3 { font-size: 1.4rem; margin-bottom: 6px; }
+
+.note p { font-size: 0.85rem; color: var(--muted); margin-bottom: 14px; }
+
+.seg { display: flex; margin: 0px 20px; border: 1px solid var(--line); }
+
+.seg button { flex: 1 1 0%; height: 46px; font-size: 0.66rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); font-weight: 400; }
+
+.seg button[aria-pressed="true"] { background: var(--gold); color: var(--dark); }
+
+.dest { display: none; }
+
+.dest.active { display: block; }
+
+.dhero { position: relative; height: 240px; margin: 16px 20px 0px; overflow: hidden; background: var(--dark-3); }
+
+.dhero img { width: 100%; height: 100%; object-fit: cover; opacity: 0.75; }
+
+.dhero .cap { position: absolute; left: 0px; right: 0px; bottom: 0px; padding: 18px; background: linear-gradient(rgba(26, 23, 20, 0), rgba(26, 23, 20, 0.95)); }
+
+.dhero .cap .eyebrow { margin-bottom: 4px; }
+
+.dhero h3 { font-size: 2rem; font-weight: 400; }
+
+.arr { display: flex; gap: 12px; align-items: center; margin: 14px 20px 0px; padding: 12px 14px; border: 1px solid var(--line-soft); font-size: 0.78rem; color: var(--muted); }
+
+.arr b { font-family: var(--serif); font-size: 1.15rem; font-weight: 500; color: var(--gold); white-space: nowrap; }
+
+.list { margin: 6px 20px 0px; }
+
+.li { display: flex; gap: 14px; padding: 14px 0px; border-bottom: 1px solid var(--line-soft); }
+
+.li .glyph { margin: 0px; width: 26px; flex: 0 0 26px; font-size: 1.3rem; padding-top: 3px; }
+
+.li h4 { font-family: var(--serif); font-size: 1.2rem; font-weight: 500; margin-bottom: 2px; }
+
+.li p { font-size: 0.82rem; color: var(--muted); line-height: 1.5; }
+
+.faq { margin: 0px 20px; }
+
+.q { border-bottom: 1px solid var(--line-soft); }
+
+.q button { width: 100%; display: flex; justify-content: space-between; align-items: center; gap: 12px; text-align: left; padding: 15px 0px; font-family: var(--serif); font-size: 1.15rem; font-weight: 500; min-height: 48px; }
+
+.q button::after { content: "+"; color: var(--gold); font-size: 1.4rem; font-weight: 300; flex: 0 0 auto; transition: transform 0.2s; }
+
+.q.open button::after { transform: rotate(45deg); }
+
+.q .a { display: none; font-size: 0.85rem; color: var(--muted); padding: 0px 0px 16px; }
+
+.q.open .a { display: block; }
+
+form { margin: 0px 20px; }
+
+.f { margin-bottom: 16px; min-width: 0px; }
+
+label.l { display: block; font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 7px; }
+
+.in { width: 100%; min-width: 0px; max-width: 100%; background: var(--dark-2); border: 1px solid var(--line-soft); color: var(--cream); font-family: var(--sans); font-weight: 300; font-size: 16px; padding: 0px 14px; height: 50px; outline: none; transition: border-color 0.2s; border-radius: 0px; appearance: none; }
+
+textarea.in { height: auto; min-height: 110px; padding: 14px; resize: vertical; }
+
+.in:focus { border-color: var(--gold); }
+
+.in::placeholder { color: rgba(245, 240, 232, 0.35); }
+
+select.in { background-image: linear-gradient(45deg,transparent 50%,var(--gold) 50%),linear-gradient(135deg,var(--gold) 50%,transparent 50%); background-position: calc(100% - 20px) 22px, calc(100% - 15px) 22px; background-size: 5px 5px; background-repeat: no-repeat; padding-right: 40px; }
+
+.row2 { display: grid; grid-template-columns: minmax(0px, 1fr) minmax(0px, 1fr); gap: 12px; }
+
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+
+.chip { position: relative; }
+
+.chip input { position: absolute; opacity: 0; width: 0px; height: 0px; }
+
+.chip span { display: inline-flex; align-items: center; min-height: 42px; padding: 0px 16px; border: 1px solid var(--line); font-size: 0.66rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); transition: 0.15s; cursor: pointer; }
+
+.chip input:checked + span { background: var(--gold); color: var(--dark); border-color: var(--gold); }
+
+.chip input:focus-visible + span { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+.hint { font-size: 0.78rem; color: var(--muted); text-align: center; margin-top: 14px; }
+
+.hint a { color: var(--gold); }
+
+.prev { margin: 18px 20px 0px; padding: 16px; border: 1px solid var(--line); background: var(--dark-2); font-size: 0.82rem; color: var(--muted); white-space: pre-wrap; display: none; }
+
+.prev.show { display: block; }
+
+.prev .k { font-size: 0.58rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; white-space: normal; }
+
+.tst { flex: 0 0 84%; scroll-snap-align: start; border: 1px solid var(--line-soft); background: var(--dark-2); padding: 22px 20px; }
+
+.stars { color: var(--gold); letter-spacing: 0.2em; font-size: 0.8rem; margin-bottom: 10px; }
+
+.tst blockquote { font-family: var(--serif); font-size: 1.25rem; font-style: italic; color: var(--cream); line-height: 1.35; margin-bottom: 12px; }
+
+.tst cite { font-style: normal; font-size: 0.62rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
+
+.about { margin: 0px 20px; border: 1px solid var(--line-soft); background: var(--dark-2); }
+
+.about .im { aspect-ratio: 4 / 5; overflow: hidden; background: var(--dark-3); }
+
+.about img { width: 100%; height: 100%; object-fit: cover; }
+
+.about .b { padding: 22px 20px; }
+
+.about p { font-size: 0.9rem; color: var(--muted); }
+
+.ess { margin: 0px 20px; border: 1px solid var(--line-soft); background: var(--dark-2); }
+
+.ess .r { display: flex; justify-content: space-between; gap: 14px; padding: 13px 16px; border-bottom: 1px solid var(--line-soft); font-size: 0.84rem; }
+
+.ess .r:last-child { border-bottom: 0px; }
+
+.ess .r span { color: var(--muted); flex: 0 0 42%; }
+
+.ess .r b { font-weight: 400; color: var(--cream); text-align: right; }
+
+.ess .r b a { color: var(--gold); text-decoration: none; display: inline-block; padding: 10px 4px; margin: -10px 0px; }
+
+.phr { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 0px 20px; }
+
+.phr div { border: 1px solid var(--line-soft); padding: 12px 14px; background: var(--dark-2); }
+
+.phr b { display: block; font-family: var(--serif); font-size: 1.15rem; font-weight: 500; color: var(--gold); }
+
+.phr span { font-size: 0.72rem; color: var(--muted); }
+
+.inst { margin: 0px 20px; border: 1px solid var(--line); padding: 18px; background: var(--dark-2); }
+
+.inst h3 { font-size: 1.35rem; margin-bottom: 8px; }
+
+.inst ol { padding-left: 18px; font-size: 0.84rem; color: var(--muted); }
+
+.inst li { margin-bottom: 4px; }
+
+.inst .btn { margin-top: 12px; }
+
+.banner { display: none; margin: 16px 20px 0px; padding: 12px 14px; border: 1px solid var(--line); background: var(--dark-2); align-items: center; justify-content: space-between; gap: 10px; font-size: 0.78rem; color: var(--muted); }
+
+.banner.show { display: flex; }
+
+.banner .btn { height: 38px; padding: 0px 14px; font-size: 0.6rem; }
+
+.banner .x { font-size: 1.2rem; color: var(--muted); padding: 6px; min-width: 36px; }
+
+footer { padding: 36px 20px 10px; text-align: center; font-size: 0.66rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mid); line-height: 2; }
+
+footer a { color: var(--gold); text-decoration: none; display: inline-block; padding: 10px 6px; }
+
+.bar { position: fixed; left: 0px; right: 0px; bottom: 0px; z-index: 50; display: grid; grid-template-columns: 1.25fr 1fr; gap: 8px; padding: 8px 12px calc(8px + env(safe-area-inset-bottom)); background: rgba(26, 23, 20, 0.96); backdrop-filter: blur(14px); border-top: 1px solid var(--line-soft); }
+
+.bar .btn { height: 48px; padding: 0px 10px; font-size: 0.64rem; }
+
+.toast { position: fixed; left: 50%; bottom: calc(var(--bar-h) + 14px); transform: translateX(-50%) translateY(20px); background: var(--gold); color: var(--dark); font-size: 0.66rem; letter-spacing: 0.16em; text-transform: uppercase; padding: 12px 18px; opacity: 0; pointer-events: none; transition: 0.25s; z-index: 60; white-space: nowrap; }
+
+.toast.show { opacity: 1; transform: translateX(-50%); }
+
+@media (min-width: 560px) {
+  body { font-size: 16px; }
+  .hero { min-height: 600px; }
+  .hero h1 { font-size: 4rem; }
+  .btn-row { flex-flow: wrap; }
+  .mini { flex-basis: 44%; }
+  .tst { flex-basis: 60%; }
+  .quick { grid-template-columns: repeat(4, 1fr); }
+  main { max-width: 720px; margin: 0px auto; }
+  .hdr > div { max-width: 720px; margin: 0px auto; }
+  .bar { grid-template-columns: 1fr 1fr; padding-left: calc(50% - 350px); padding-right: calc(50% - 350px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: auto ease 0s 1 normal none running none !important; transition: none !important; }
+}
+
+.brand-name span { margin-left: 0.28em; }
+
+.brand-mark { width: 38px; height: 38px; border-radius: 50%; margin-right: 11px; flex: 0 0 auto; box-shadow: rgba(201, 169, 110, 0.35) 0px 0px 0px 1px; }
+
+.hero .hero-in img.hero-logo { position: static; inset: auto; transform: none; opacity: 1; object-fit: contain; animation: auto ease 0s 1 normal none running none; display: block; width: 120px; height: auto; margin: 0px 0px 16px; filter: drop-shadow(rgba(0, 0, 0, 0.55) 0px 2px 14px); }
+
+.shfb { position: fixed; inset: 0px; z-index: 90; background: rgba(10, 9, 8, 0.78); display: flex; align-items: flex-end; justify-content: center; }
+
+.shfb[hidden] { display: none !important; }
+
+.shfb .sh-in { width: 100%; max-width: 520px; background: var(--dark-2); border-top: 1px solid var(--line); padding: 22px 20px calc(22px + env(safe-area-inset-bottom)); display: grid; gap: 10px; }
+
+.shfb h3 { font-family: var(--serif); font-weight: 500; font-size: 1.5rem; margin: 0px 0px 4px; }
+
+[hidden] { display: none !important; }</style>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Aley Concierge — Guest App</title>
+<meta name="description" content="Your personal Bali concierge in your pocket. Private villas, VIP airport transfers, private chefs, wellness and bespoke experiences — one message to Aley.">
+<meta name="theme-color" content="#1A1714">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Aley">
+<meta name="format-detection" content="telephone=no">
+<link rel="manifest" href="https://aley-app.netlify.app/manifest.json">
+<link rel="icon" type="image/png" sizes="32x32" href="https://aley-app.netlify.app/images/favicon-32.png">
+<link rel="icon" type="image/png" sizes="64x64" href="https://aley-app.netlify.app/images/favicon-64.png">
+<link rel="apple-touch-icon" sizes="180x180" href="https://aley-app.netlify.app/apple-touch-icon.png">
+<meta name="application-name" content="Aley Concierge">
+<meta name="build" content="01OCT-A">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Aley Concierge">
+<meta property="og:title" content="Aley Concierge — Guest App">
+<meta property="og:description" content="Not a platform. A person. Your Bali concierge in your pocket — private villas, transfers, chefs, wellness and bespoke experiences.">
+<meta property="og:image" content="https://aley-app.netlify.app/images/og-image.png">
+<meta property="og:url" content="https://aley-app.netlify.app/">
+<meta name="twitter:image" content="https://aley-app.netlify.app/images/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" href="https://aley-app.netlify.app/fonts/cormorant-garamond-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin="">
+<link rel="preload" href="https://aley-app.netlify.app/fonts/jost-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin="">
+
+</head>
+<body>
+
+<header class="hdr">
+  <div>
+    <div class="brand">
+      <a class="brand-name" href="https://aley-app.netlify.app/#home" data-go="home" aria-label="Aley Concierge — home"><img class="brand-mark" src="https://aley-app.netlify.app/images/logo-mark.png" alt="" width="38" height="38">Aley <span>Concierge</span></a>
+      <div class="score" aria-label="Guest review score 9.8 out of 10"><b>9.8</b> / 10 guest score</div>
+    </div>
+    <nav class="tabs" role="tablist" aria-label="Sections">
+      <button class="tab" role="tab" data-tab="home" aria-selected="true" aria-controls="p-home">Home</button>
+      <button class="tab" role="tab" data-tab="services" aria-selected="false" aria-controls="p-services">Services</button>
+      <button class="tab" role="tab" data-tab="villas" aria-selected="false" aria-controls="p-villas">Villas</button>
+      <button class="tab" role="tab" data-tab="bali" aria-selected="false" aria-controls="p-bali">Bali</button>
+      <button class="tab" role="tab" data-tab="plan" aria-selected="false" aria-controls="p-plan">Plan</button>
+      <button class="tab" role="tab" data-tab="more" aria-selected="false" aria-controls="p-more">More</button>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<!-- ================= HOME ================= -->
+<section class="panel active" id="p-home" role="tabpanel">
+  <div class="hero">
+    <img src="https://www.aleyconciergebali.com/images/aley-concierge.jpg" alt="Luxury Bali villa with infinity pool overlooking the tropical landscape" fetchpriority="high">
+    <div class="hero-in">
+      <img class="hero-logo" src="https://aley-app.netlify.app/images/logo-lockup.png" alt="Aley Concierge" width="120" height="84">
+      <div class="eyebrow">Bali's Premier Concierge</div>
+      <h1>Not a Platform.<br><i>A Person.</i></h1>
+      <div class="sub">Private Villas · Airport Transfers · Experiences · Wellness</div>
+      <div class="btn-row">
+        <a class="btn btn-gold" href="https://wa.me/6282146498343?text=Hi%20Aley%20%E2%80%94%20I%27m%20using%20the%20Aley%20Concierge%20app%20and%20would%20love%20some%20help%20planning%20our%20time%20in%20Bali." target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.1-1.8-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.4-.5c.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5-.1-.1-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.1-.3-.2-.6-.4zM12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2z"></path></svg>
+          WhatsApp Aley
+        </a>
+        <button class="btn btn-outline" data-go="services">Explore Services</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="status" style="margin-top:18px">
+    <div class="g" id="greet">Selamat siang<small>Good day from Bali</small></div>
+    <div class="t"><b id="clock">12:04</b>Bali time · WITA</div>
+  </div>
+  <div class="wrap" style="margin-top:10px;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)"><span class="pulse" aria-hidden="true"></span>A real person replies — usually within the hour</div>
+
+  <div class="quick">
+    <a class="qa" href="https://wa.me/6282146498343" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 0 1-8.5 8.3 8.6 8.6 0 0 1-4-1L3 20l1.3-4.4a8.3 8.3 0 0 1-1.1-4.1A8.4 8.4 0 0 1 11.7 3 8.4 8.4 0 0 1 21 11.5z"></path></svg>WhatsApp</a>
+    <a class="qa" href="tel:+6282146498343"><svg viewBox="0 0 24 24"><path d="M5 3h4l2 5-2.5 1.5a11 11 0 0 0 6 6L16 13l5 2v4a2 2 0 0 1-2 2A17 17 0 0 1 3 5a2 2 0 0 1 2-2z"></path></svg>Call</a>
+    <a class="qa" href="mailto:aleyconcierge@gmail.com?subject=Bali%20enquiry%20via%20the%20Aley%20Concierge%20app"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14"></rect><path d="M3 7l9 6 9-6"></path></svg>Email</a>
+    <button class="qa" data-go="plan"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17"></rect><path d="M3 9h18M8 2v4M16 2v4M8 14h4"></path></svg>Plan trip</button>
+  </div>
+
+  <div class="banner" id="installBanner">
+    <span>Add Aley to your home screen for one-tap access.</span>
+    <button class="btn btn-gold" id="installBtn">Install</button>
+    <button class="x" id="installX" aria-label="Dismiss">×</button>
+  </div>
+
+  <div class="section">
+    <div class="eyebrow">Why Aley</div>
+    <h2 class="h2">Bali, the way it was <i>meant to be.</i></h2>
+    <p class="lead">When you arrive in Bali, you deserve more than a booking confirmation. Aley is your personal concierge — one person, fully accountable, with 15+ years of relationships built across the island's finest villas, restaurants and experiences.</p>
+    <p class="lead">No call centres. No generic itineraries. Every detail handled with the care of someone who has made Bali their life's work. That's the Aley difference.</p>
+  </div>
+  <div class="stats">
+    <div class="stat"><b>9.8</b><span>Review score</span></div>
+    <div class="stat"><b>500+</b><span>Happy guests</span></div>
+    <div class="stat"><b>15+</b><span>Years in Bali</span></div>
+  </div>
+
+  <div class="section" style="padding-bottom:0">
+    <div class="eyebrow">What We Do</div>
+    <h2 class="h2">Every detail, <i>taken care of.</i></h2>
+  </div>
+  <div class="hscroll" id="homeServices"><a class="mini" href="https://aley-app.netlify.app/#services" data-go="services"><div class="im"><img src="https://www.aleyconciergebali.com/images/airport-meet-greet.jpg" alt="VIP airport meet and greet service in Bali with luxury vehicle" loading="lazy"></div><div class="b"><div class="glyph">✈</div><h3>Airport Transfers</h3><p>VIP meet &amp; greet, private luxury vehicles, seamless arrivals and departures.</p></div></a><a class="mini" href="https://aley-app.netlify.app/#services" data-go="services"><div class="im"><img src="https://www.aleyconciergebali.com/images/private-villa.jpg" alt="Private luxury villa in Bali with tropical garden" loading="lazy"></div><div class="b"><div class="glyph">⌂</div><h3>Private Villas</h3><p>Hand-selected luxury villas with personal recommendations based on your style and needs.</p></div></a><a class="mini" href="https://aley-app.netlify.app/#services" data-go="services"><div class="im"><img src="https://www.aleyconciergebali.com/images/private-chef.jpg" alt="Private chef preparing in-villa Balinese fine dining" loading="lazy"></div><div class="b"><div class="glyph">♨</div><h3>Private Chef</h3><p>In-villa dining experiences with top Balinese chefs — from traditional feasts to fine dining.</p></div></a><a class="mini" href="https://aley-app.netlify.app/#services" data-go="services"><div class="im"><img src="https://www.aleyconciergebali.com/images/private-yoga.jpg" alt="Private yoga session in a Bali villa pavilion" loading="lazy"></div><div class="b"><div class="glyph">☽</div><h3>Wellness &amp; Yoga</h3><p>Private yoga sessions, spa treatments and wellness retreats curated for your journey.</p></div></a><a class="mini" href="https://aley-app.netlify.app/#services" data-go="services"><div class="im"><img src="https://www.aleyconciergebali.com/images/vip-transport.jpg" alt="VIP private transport with professional driver in Bali" loading="lazy"></div><div class="b"><div class="glyph">◈</div><h3>VIP Transport</h3><p>Luxury vehicles and professional drivers for island excursions and day trips.</p></div></a><a class="mini" href="https://aley-app.netlify.app/#services" data-go="services"><div class="im"><img src="https://www.aleyconciergebali.com/images/bespoke-experiences.jpg" alt="Bespoke Bali experience at a hidden temple ceremony" loading="lazy"></div><div class="b"><div class="glyph">✦</div><h3>Bespoke Experiences</h3><p>From private temple ceremonies to hidden waterfalls — Aley opens doors that apps can't.</p></div></a><a class="mini" href="https://aley-app.netlify.app/#services" data-go="services"><div class="im"><img src="https://www.aleyconciergebali.com/images/airport-meet-greet.jpg" alt="VIP airport meet and greet service in Bali with luxury vehicle" loading="lazy"></div><div class="b"><div class="glyph">✈</div><h3>Airport Transfers</h3><p>VIP meet &amp; greet, private luxury vehicles, seamless arrivals and departures.</p></div></a><a class="mini" href="https://aley-app.netlify.app/#services" data-go="services"><div class="im"><img src="https://www.aleyconciergebali.com/images/private-villa.jpg" alt="Private luxury villa in Bali with tropical garden" loading="lazy"></div><div class="b"><div class="glyph">⌂</div><h3>Private Villas</h3><p>Hand-selected luxury villas with personal recommendations based on your style and needs.</p></div></a><a class="mini" href="https://aley-app.netlify.app/#services" data-go="services"><div class="im"><img src="https://www.aleyconciergebali.com/images/private-chef.jpg" alt="Private chef preparing in-villa Balinese fine dining" loading="lazy"></div><div class="b"><div class="glyph">♨</div><h3>Private Chef</h3><p>In-villa dining experiences with top Balinese chefs — from traditional feasts to fine dining.</p></div></a><a class="mini" href="https://aley-app.netlify.app/#services" data-go="services"><div class="im"><img src="https://www.aleyconciergebali.com/images/private-yoga.jpg" alt="Private yoga session in a Bali villa pavilion" loading="lazy"></div><div class="b"><div class="glyph">☽</div><h3>Wellness &amp; Yoga</h3><p>Private yoga sessions, spa treatments and wellness retreats curated for your journey.</p></div></a><a class="mini" href="https://aley-app.netlify.app/#services" data-go="services"><div class="im"><img src="https://www.aleyconciergebali.com/images/vip-transport.jpg" alt="VIP private transport with professional driver in Bali" loading="lazy"></div><div class="b"><div class="glyph">◈</div><h3>VIP Transport</h3><p>Luxury vehicles and professional drivers for island excursions and day trips.</p></div></a><a class="mini" href="https://aley-app.netlify.app/#services" data-go="services"><div class="im"><img src="https://www.aleyconciergebali.com/images/bespoke-experiences.jpg" alt="Bespoke Bali experience at a hidden temple ceremony" loading="lazy"></div><div class="b"><div class="glyph">✦</div><h3>Bespoke Experiences</h3><p>From private temple ceremonies to hidden waterfalls — Aley opens doors that apps can't.</p></div></a></div>
+  <div class="wrap" style="margin-top:14px"><button class="link" data-go="services">See all services</button></div>
+
+  <div class="section" style="padding-bottom:0">
+    <div class="eyebrow">Our Villas</div>
+    <h2 class="h2">Curated stays, <i>extraordinary views.</i></h2>
+  </div>
+  <div class="hscroll">
+    <a class="mini" href="https://aley-app.netlify.app/#villas" data-go="villas"><div class="im"><img src="https://www.aleyconciergebali.com/images/uma-santai-villa.jpg" alt="Uma Santai villa with infinity pool and valley views" loading="lazy"></div><div class="b"><h3>Uma Santai</h3><p>Valley views, infinity pool, tropical gardens. Where stillness meets luxury.</p></div></a>
+    <a class="mini" href="https://aley-app.netlify.app/#villas" data-go="villas"><div class="im"><img src="https://www.aleyconciergebali.com/images/casa-bumbak-villa.jpg" alt="Casa Bumbak villa in Canggu with private pool" loading="lazy"></div><div class="b"><h3>Casa Bumbak</h3><p>Contemporary design meets Balinese craft in Canggu's most sought-after pocket.</p></div></a>
+  </div>
+
+  <div class="section" style="padding-bottom:0">
+    <div class="eyebrow">Guest Stories</div>
+    <h2 class="h2">What our guests <i>say.</i></h2>
+  </div>
+  <div class="hscroll">
+    <div class="tst"><div class="stars">★★★★★</div><blockquote>"Aley made our Bali honeymoon absolutely perfect. Every detail was taken care of before we even thought to ask. Truly exceptional service."</blockquote><cite>Sarah &amp; James · Australia</cite></div>
+    <div class="tst"><div class="stars">★★★★★</div><blockquote>"I've travelled extensively but never experienced service like this. Aley is the kind of concierge you tell everyone about when you get home."</blockquote><cite>Michael T. · Singapore</cite></div>
+    <div class="tst"><div class="stars">★★★★★</div><blockquote>"The villa he recommended was beyond our expectations. The private chef dinner was the highlight of our trip. Already planning our return."</blockquote><cite>Emma K. · United Kingdom</cite></div>
+  </div>
+
+  <div class="section center">
+    <div class="eyebrow">Ready to Begin?</div>
+    <h2 class="h2">Your Bali experience starts with <i>one message.</i></h2>
+    <p class="lead">Tell Aley what you're dreaming of. No forms, no waiting. A real person replies — usually within the hour.</p>
+    <div class="btn-row">
+      <a class="btn btn-gold btn-block" href="https://wa.me/6282146498343?text=Hi%20Aley%20%E2%80%94%20I%27m%20using%20the%20Aley%20Concierge%20app%20and%20would%20love%20some%20help%20planning%20our%20time%20in%20Bali." target="_blank" rel="noopener">WhatsApp Aley</a>
+      <a class="btn btn-outline btn-block" href="mailto:aleyconcierge@gmail.com?subject=Bali%20enquiry%20via%20the%20Aley%20Concierge%20app">Send an Email</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SERVICES ================= -->
+<section class="panel" id="p-services" role="tabpanel">
+  <div class="section">
+    <div class="eyebrow">What We Do</div>
+    <h2 class="h2">Every detail, <i>taken care of.</i></h2>
+    <p class="lead">Tap any service and Aley gets a ready-made message — just add your dates.</p>
+  </div>
+  <div id="serviceList"><article class="svc"><div class="im"><img src="https://www.aleyconciergebali.com/images/airport-meet-greet.jpg" alt="VIP airport meet and greet service in Bali with luxury vehicle" loading="lazy"><div class="glyph">✈</div></div><div class="b"><h3>Airport Transfers</h3><p>VIP meet &amp; greet, private luxury vehicles, seamless arrivals and departures.</p><a class="btn btn-gold btn-block" href="https://wa.me/6282146498343?text=Hi%20Aley%20%E2%80%94%20I%27m%20using%20the%20Aley%20Concierge%20app.%0AI%27d%20like%20to%20arrange%20a%20VIP%20airport%20transfer.%0AArrival%20date%20%26%20flight%3A%20%0AGuests%3A%20%0AGoing%20to%3A%20" target="_blank" rel="noopener">Arrange a transfer</a></div></article><article class="svc"><div class="im"><img src="https://www.aleyconciergebali.com/images/private-villa.jpg" alt="Private luxury villa in Bali with tropical garden" loading="lazy"><div class="glyph">⌂</div></div><div class="b"><h3>Private Villas</h3><p>Hand-selected luxury villas with personal recommendations based on your style and needs.</p><a class="btn btn-gold btn-block" href="https://wa.me/6282146498343?text=Hi%20Aley%20%E2%80%94%20I%27m%20using%20the%20Aley%20Concierge%20app.%0AI%27m%20looking%20for%20a%20private%20villa.%0ADates%3A%20%0AGuests%3A%20%0AArea%20(Canggu%20%2F%20Seminyak%20%2F%20Ubud%20%2F%20not%20sure)%3A%20%0AStyle%20we%20love%3A%20" target="_blank" rel="noopener">Find my villa</a></div></article><article class="svc"><div class="im"><img src="https://www.aleyconciergebali.com/images/private-chef.jpg" alt="Private chef preparing in-villa Balinese fine dining" loading="lazy"><div class="glyph">♨</div></div><div class="b"><h3>Private Chef</h3><p>In-villa dining experiences with top Balinese chefs — from traditional feasts to fine dining.</p><a class="btn btn-gold btn-block" href="https://wa.me/6282146498343?text=Hi%20Aley%20%E2%80%94%20I%27m%20using%20the%20Aley%20Concierge%20app.%0AWe%27d%20love%20to%20book%20a%20private%20chef.%0ADate(s)%3A%20%0AGuests%3A%20%0ACuisine%20%2F%20dietary%20notes%3A%20" target="_blank" rel="noopener">Book a private chef</a></div></article><article class="svc"><div class="im"><img src="https://www.aleyconciergebali.com/images/private-yoga.jpg" alt="Private yoga session in a Bali villa pavilion" loading="lazy"><div class="glyph">☽</div></div><div class="b"><h3>Wellness &amp; Yoga</h3><p>Private yoga sessions, spa treatments and wellness retreats curated for your journey.</p><a class="btn btn-gold btn-block" href="https://wa.me/6282146498343?text=Hi%20Aley%20%E2%80%94%20I%27m%20using%20the%20Aley%20Concierge%20app.%0AWe%27re%20interested%20in%20private%20yoga%20%2F%20wellness%20at%20our%20villa.%0ADates%3A%20%0AGuests%3A%20%0AWhat%20we%27re%20after%3A%20" target="_blank" rel="noopener">Book wellness</a></div></article><article class="svc"><div class="im"><img src="https://www.aleyconciergebali.com/images/vip-transport.jpg" alt="VIP private transport with professional driver in Bali" loading="lazy"><div class="glyph">◈</div></div><div class="b"><h3>VIP Transport</h3><p>Luxury vehicles and professional drivers for island excursions and day trips.</p><a class="btn btn-gold btn-block" href="https://wa.me/6282146498343?text=Hi%20Aley%20%E2%80%94%20I%27m%20using%20the%20Aley%20Concierge%20app.%0AI%27d%20like%20a%20private%20driver%20%2F%20day%20trip.%0ADate%3A%20%0AGuests%3A%20%0AWhere%20we%27d%20like%20to%20go%3A%20" target="_blank" rel="noopener">Book a driver</a></div></article><article class="svc"><div class="im"><img src="https://www.aleyconciergebali.com/images/bespoke-experiences.jpg" alt="Bespoke Bali experience at a hidden temple ceremony" loading="lazy"><div class="glyph">✦</div></div><div class="b"><h3>Bespoke Experiences</h3><p>From private temple ceremonies to hidden waterfalls — Aley opens doors that apps can't.</p><a class="btn btn-gold btn-block" href="https://wa.me/6282146498343?text=Hi%20Aley%20%E2%80%94%20I%27m%20using%20the%20Aley%20Concierge%20app.%0AWe%27d%20love%20a%20bespoke%20experience%20(temple%20ceremony%2C%20waterfalls%2C%20hidden%20Bali).%0ADates%3A%20%0AGuests%3A%20%0AIdeas%20so%20far%3A%20" target="_blank" rel="noopener">Ask about experiences</a></div></article><article class="svc"><div class="im"><img src="https://www.aleyconciergebali.com/images/airport-meet-greet.jpg" alt="VIP airport meet and greet service in Bali with luxury vehicle" loading="lazy"><div class="glyph">✈</div></div><div class="b"><h3>Airport Transfers</h3><p>VIP meet &amp; greet, private luxury vehicles, seamless arrivals and departures.</p><a class="btn btn-gold btn-block" href="https://wa.me/6282146498343?text=Hi%20Aley%20%E2%80%94%20I%27m%20using%20the%20Aley%20Concierge%20app.%0AI%27d%20like%20to%20arrange%20a%20VIP%20airport%20transfer.%0AArrival%20date%20%26%20flight%3A%20%0AGuests%3A%20%0AGoing%20to%3A%20" target="_blank" rel="noopener">Arrange a transfer</a></div></article><article class="svc"><div class="im"><img src="https://www.aleyconciergebali.com/images/private-villa.jpg" alt="Private luxury villa in Bali with tropical garden" loading="lazy"><div class="glyph">⌂</div></div><div class="b"><h3>Private Villas</h3><p>Hand-selected luxury villas with personal recommendations based on your style and needs.</p><a class="btn btn-gold btn-block" href="https://wa.me/6282146498343?text=Hi%20Aley%20%E2%80%94%20I%27m%20using%20the%20Aley%20Concierge%20app.%0AI%27m%20looking%20for%20a%20private%20villa.%0ADates%3A%20%0AGuests%3A%20%0AArea%20(Canggu%20%2F%20Seminyak%20%2F%20Ubud%20%2F%20not%20sure)%3A%20%0AStyle%20we%20love%3A%20" target="_blank" rel="noopener">Find my villa</a></div></article><article class="svc"><div class="im"><img src="https://www.aleyconciergebali.com/images/private-chef.jpg" alt="Private chef preparing in-villa Balinese fine dining" loading="lazy"><div class="glyph">♨</div></div><div class="b"><h3>Private Chef</h3><p>In-villa dining experiences with top Balinese chefs — from traditional feasts to fine dining.</p><a class="btn btn-gold btn-block" href="https://wa.me/6282146498343?text=Hi%20Aley%20%E2%80%94%20I%27m%20using%20the%20Aley%20Concierge%20app.%0AWe%27d%20love%20to%20book%20a%20private%20chef.%0ADate(s)%3A%20%0AGuests%3A%20%0ACuisine%20%2F%20dietary%20notes%3A%20" target="_blank" rel="noopener">Book a private chef</a></div></article><article class="svc"><div class="im"><img src="https://www.aleyconciergebali.com/images/private-yoga.jpg" alt="Private yoga session in a Bali villa pavilion" loading="lazy"><div class="glyph">☽</div></div><div class="b"><h3>Wellness &amp; Yoga</h3><p>Private yoga sessions, spa treatments and wellness retreats curated for your journey.</p><a class="btn btn-gold btn-block" href="https://wa.me/6282146498343?text=Hi%20Aley%20%E2%80%94%20I%27m%20using%20the%20Aley%20Concierge%20app.%0AWe%27re%20interested%20in%20private%20yoga%20%2F%20wellness%20at%20our%20villa.%0ADates%3A%20%0AGuests%3A%20%0AWhat%20we%27re%20after%3A%20" target="_blank" rel="noopener">Book wellness</a></div></article><article class="svc"><div class="im"><img src="https://www.aleyconciergebali.com/images/vip-transport.jpg" alt="VIP private transport with professional driver in Bali" loading="lazy"><div class="glyph">◈</div></div><div class="b"><h3>VIP Transport</h3><p>Luxury vehicles and professional drivers for island excursions and day trips.</p><a class="btn btn-gold btn-block" href="https://wa.me/6282146498343?text=Hi%20Aley%20%E2%80%94%20I%27m%20using%20the%20Aley%20Concierge%20app.%0AI%27d%20like%20a%20private%20driver%20%2F%20day%20trip.%0ADate%3A%20%0AGuests%3A%20%0AWhere%20we%27d%20like%20to%20go%3A%20" target="_blank" rel="noopener">Book a driver</a></div></article><article class="svc"><div class="im"><img src="https://www.aleyconciergebali.com/images/bespoke-experiences.jpg" alt="Bespoke Bali experience at a hidden temple ceremony" loading="lazy"><div class="glyph">✦</div></div><div class="b"><h3>Bespoke Experiences</h3><p>From private temple ceremonies to hidden waterfalls — Aley opens doors that apps can't.</p><a class="btn btn-gold btn-block" href="https://wa.me/6282146498343?text=Hi%20Aley%20%E2%80%94%20I%27m%20using%20the%20Aley%20Concierge%20app.%0AWe%27d%20love%20a%20bespoke%20experience%20(temple%20ceremony%2C%20waterfalls%2C%20hidden%20Bali).%0ADates%3A%20%0AGuests%3A%20%0AIdeas%20so%20far%3A%20" target="_blank" rel="noopener">Ask about experiences</a></div></article></div>
+  <div class="note">
+    <h3>Something not listed?</h3>
+    <p>From private boat days to last-minute dinner tables — if it's possible in Bali, Aley can arrange it.</p>
+    <a class="btn btn-gold-outline" href="https://wa.me/6282146498343?text=Hi%20Aley%20%E2%80%94%20I%27m%20using%20the%20Aley%20Concierge%20app.%20I%27d%20like%20to%20ask%20about%20something%20a%20little%20different%3A%20" target="_blank" rel="noopener">Ask Aley</a>
+  </div>
+</section>
+
+<!-- ================= VILLAS ================= -->
+<section class="panel" id="p-villas" role="tabpanel">
+  <div class="section">
+    <div class="eyebrow">Our Villas</div>
+    <h2 class="h2">Curated stays, <i>extraordinary views.</i></h2>
+    <p class="lead">Every villa personally stayed in. Every recommendation from genuine experience.</p>
+  </div>
+
+  <article class="villa" data-villa="uma">
+    <div class="main"><img id="uma-main" src="https://www.aleyconciergebali.com/images/uma-santai-villa.jpg" alt="Uma Santai villa exterior with infinity pool and valley views"></div>
+    <div class="thumbs" data-target="uma-main">
+      <button class="on" data-src="https://www.aleyconciergebali.com/images/uma-santai-villa.jpg" aria-label="Uma Santai exterior"><img src="https://www.aleyconciergebali.com/images/uma-santai-villa.jpg" alt="" loading="lazy"></button>
+      <button data-src="https://www.aleyconciergebali.com/images/uma-santai-thumb1.jpg" aria-label="Uma Santai interior"><img src="https://www.aleyconciergebali.com/images/uma-santai-thumb1.jpg" alt="" loading="lazy"></button>
+      <button data-src="https://www.aleyconciergebali.com/images/uma-santai-thumb2.jpg" aria-label="Uma Santai garden"><img src="https://www.aleyconciergebali.com/images/uma-santai-thumb2.jpg" alt="" loading="lazy"></button>
+    </div>
+    <div class="b">
+      <div class="loc">Ubud · Valley Views</div>
+      <h3>Uma Santai</h3>
+      <p>A private sanctuary with sweeping valley views, infinity pool and lush tropical gardens. Uma Santai is where stillness meets luxury — perfect for couples and small families seeking the authentic Bali experience.</p>
+      <a class="btn btn-gold btn-block" href="https://wa.me/6282146498343?text=Hi%20Aley%20%E2%80%94%20I%27m%20using%20the%20Aley%20Concierge%20app%20and%20I%27d%20like%20to%20enquire%20about%20Uma%20Santai.%0ADates%3A%20%0AGuests%3A%20" target="_blank" rel="noopener">Enquire about Uma Santai</a>
+    </div>
+  </article>
+
+  <article class="villa" data-villa="casa">
+    <div class="main"><img id="casa-main" src="https://www.aleyconciergebali.com/images/casa-bumbak-villa.jpg" alt="Casa Bumbak villa in Canggu with private pool and contemporary Balinese design"></div>
+    <div class="thumbs" data-target="casa-main">
+      <button class="on" data-src="https://www.aleyconciergebali.com/images/casa-bumbak-villa.jpg" aria-label="Casa Bumbak exterior"><img src="https://www.aleyconciergebali.com/images/casa-bumbak-villa.jpg" alt="" loading="lazy"></button>
+      <button data-src="https://www.aleyconciergebali.com/images/casa-bumbak-thumb1.jpg" aria-label="Casa Bumbak lounge"><img src="https://www.aleyconciergebali.com/images/casa-bumbak-thumb1.jpg" alt="" loading="lazy"></button>
+      <button data-src="https://www.aleyconciergebali.com/images/casa-bumbak-thumb2.jpg" aria-label="Casa Bumbak pool deck"><img src="https://www.aleyconciergebali.com/images/casa-bumbak-thumb2.jpg" alt="" loading="lazy"></button>
+    </div>
+    <div class="b">
+      <div class="loc">Canggu · Private Pool</div>
+      <h3>Casa Bumbak</h3>
+      <p>Sophisticated and serene, Casa Bumbak blends contemporary design with traditional Balinese elements. Set in Canggu's most sought-after neighbourhood with a stunning private pool and world-class interiors.</p>
+      <a class="btn btn-gold btn-block" href="https://wa.me/6282146498343?text=Hi%20Aley%20%E2%80%94%20I%27m%20using%20the%20Aley%20Concierge%20app%20and%20I%27d%20like%20to%20enquire%20about%20Casa%20Bumbak.%0ADates%3A%20%0AGuests%3A%20" target="_blank" rel="noopener">Enquire about Casa Bumbak</a>
+    </div>
+  </article>
+
+  <div class="note">
+    <h3>Looking for something else?</h3>
+    <p>These are two of many. Aley places guests across Canggu, Seminyak and Ubud — beachfront, jungle, family compounds and honeymoon hideaways. Tell Aley how many of you, what your days look like, and the right villa will follow.</p>
+    <button class="btn btn-gold-outline" data-go="plan">Tell Aley what you need</button>
+  </div>
+</section>
+
+<!-- ================= BALI / DESTINATIONS ================= -->
+<section class="panel" id="p-bali" role="tabpanel">
+  <div class="section" style="padding-bottom:16px">
+    <div class="eyebrow">Concierge across Bali</div>
+    <h2 class="h2">Three Balis. <i>One person.</i></h2>
+    <p class="lead">Surf-town Canggu, polished Seminyak, or the slow green heart of Ubud — Aley arranges each with the same care.</p>
+  </div>
+  <div class="seg" role="group" aria-label="Choose an area">
+    <button data-dest="canggu" aria-pressed="true">Canggu</button>
+    <button data-dest="seminyak" aria-pressed="false">Seminyak</button>
+    <button data-dest="ubud" aria-pressed="false">Ubud</button>
+  </div>
+  <div id="destWrap"><div class="dest active" id="d-canggu"><div class="dhero"><img src="https://www.aleyconciergebali.com/images/casa-bumbak-villa.jpg" alt="Casa Bumbak villa in Canggu" loading="lazy"><div class="cap"><div class="eyebrow">Canggu, Bali</div><h3>Canggu, <i>without the noise.</i></h3></div></div><div class="arr"><b>60–90 min</b><span>from DPS airport, around 18 km depending on traffic and neighbourhood</span></div><div class="section" style="padding-top:22px"><p class="lead">Surf at dawn. Brunch on Batu Bolong. Sunset at a hidden beach club. Aley handles every detail — from your villa in Berawa to the private driver who knows the back roads.</p><p class="lead">Aley has placed hundreds of guests across Canggu's neighbourhoods — Berawa, Echo Beach, Pererenan, Babakan — and the difference between a great trip and a frustrating one usually comes down to the local details.</p></div><div class="section" style="padding-top:10px;padding-bottom:0"><div class="eyebrow">What Aley arranges in Canggu</div></div><div class="list"><div class="li"><div class="glyph">⌂</div><div><h4>Private Villas</h4><p>Hand-selected villas across Berawa, Echo Beach and Pererenan — from intimate two-bedroom retreats to full-staff family compounds.</p></div></div><div class="li"><div class="glyph">✈</div><div><h4>Airport Transfers</h4><p>VIP meet-and-greet at DPS, fast-track immigration where available, and a private vehicle straight to your villa.</p></div></div><div class="li"><div class="glyph">♨</div><div><h4>Private Chef</h4><p>In-villa Balinese feasts, contemporary tasting menus, or simple healthy bowls for a long stay. Groceries handled, kitchen left spotless.</p></div></div><div class="li"><div class="glyph">≈</div><div><h4>Surf &amp; Wellness</h4><p>Private surf coaches at Batu Bolong and Echo Beach for every level. Private yoga, massage and spa brought to your villa.</p></div></div><div class="li"><div class="glyph">◈</div><div><h4>VIP Transport</h4><p>Professional drivers for day trips to Ubud, Uluwatu or temple visits — and the dinner reservations the apps never get right.</p></div></div><div class="li"><div class="glyph">✦</div><div><h4>Bespoke Access</h4><p>Reservations at Canggu's hardest-to-book restaurants, beach club day-bed access and private invitations earned over 15 years.</p></div></div></div><div class="section" style="padding-bottom:6px"><div class="eyebrow">Featured stay</div><p class="lead">Casa Bumbak — Canggu's quiet luxury. Private pool, full staff, walking distance to the best of Berawa without the through-traffic.</p></div><div class="section" style="padding-top:14px;padding-bottom:4px"><div class="eyebrow">Canggu, answered</div></div><div class="faq"><div class="q"><button type="button" aria-expanded="false">How far is Canggu from Bali airport (DPS)?</button><div class="a">Around 18 km, but expect 60–90 minutes by car depending on traffic and exact neighbourhood. Aley's private transfers take the fastest route at any hour.</div></div><div class="q"><button type="button" aria-expanded="false">Which Canggu neighbourhood should I stay in?</button><div class="a">Berawa is polished and walkable, Echo Beach is for surfers and sunsets, Pererenan is quieter and more residential, and Babakan keeps you close to rice paddies. Aley matches the area to how you actually want your trip to feel.</div></div><div class="q"><button type="button" aria-expanded="false">Can you arrange private surf coaching for beginners?</button><div class="a">Yes — Aley works with experienced local instructors for all levels, from first-time stand-ups at Batu Bolong to advanced sessions at Echo Beach and beyond.</div></div><div class="q"><button type="button" aria-expanded="false">Do you handle restaurant reservations and beach club bookings?</button><div class="a">That's the core of the concierge service. Tables at the hardest-to-book Canggu restaurants, day beds at the better beach clubs, and dinner timing planned around traffic.</div></div></div><div class="section center"><div class="eyebrow">Ready to Begin?</div><h2 class="h2">Your Canggu trip starts with <i>one message.</i></h2><div class="btn-row"><a class="btn btn-gold btn-block" href="https://wa.me/6282146498343?text=Hi%20Aley%20%E2%80%94%20I%27m%20using%20the%20Aley%20Concierge%20app.%0AWe%27re%20planning%20a%20trip%20to%20Canggu.%0ADates%3A%20%0AGuests%3A%20%0AWhat%20we%27re%20after%3A%20" target="_blank" rel="noopener">Plan your Canggu trip</a></div></div></div><div class="dest" id="d-seminyak"><div class="dhero"><img src="https://www.aleyconciergebali.com/images/private-villa.jpg" alt="Luxury private villa in Seminyak" loading="lazy"><div class="cap"><div class="eyebrow">Seminyak, Bali</div><h3>Seminyak, <i>done properly.</i></h3></div></div><div class="arr"><b>45–75 min</b><span>from DPS airport, around 12 km — timed to avoid the worst of Sunset Road</span></div><div class="section" style="padding-top:22px"><p class="lead">Beachfront sunsets at Petitenget. Fine dining at the island's best tables. Hand-picked villas a short walk from Eat Street. Aley arranges every piece — and the parts you didn't think to ask for.</p><p class="lead">Aley has spent fifteen years getting Seminyak's small details right — the sunset table, the right driver, the villa where the air-con actually works on a hot February afternoon.</p></div><div class="section" style="padding-top:10px;padding-bottom:0"><div class="eyebrow">What Aley arranges in Seminyak</div></div><div class="list"><div class="li"><div class="glyph">⌂</div><div><h4>Luxury Villas</h4><p>Beachfront and walkable villas across Petitenget, Oberoi and the Seminyak square — fully staffed, privacy assured, vetted in person.</p></div></div><div class="li"><div class="glyph">✈</div><div><h4>Airport Transfers</h4><p>VIP meet-and-greet at DPS, fast-track where available, private vehicle to your Seminyak address.</p></div></div><div class="li"><div class="glyph">♨</div><div><h4>Private Chef</h4><p>From a Balinese rijsttafel for ten to a quiet anniversary tasting menu for two — chefs Aley has worked with for years.</p></div></div><div class="li"><div class="glyph">☼</div><div><h4>Beach Club Access</h4><p>Day beds at the Seminyak beach clubs that actually deliver, with sunset timing booked around the day's tide and crowd.</p></div></div><div class="li"><div class="glyph">◈</div><div><h4>VIP Transport</h4><p>Professional drivers for shopping circuits, day trips to Uluwatu or Ubud, and dinner reservations across town.</p></div></div><div class="li"><div class="glyph">✦</div><div><h4>Fine Dining</h4><p>Tables at Seminyak's hardest-to-book restaurants — including the chef's table seats the booking sites never see.</p></div></div></div><div class="section" style="padding-bottom:6px"><div class="eyebrow">Featured stay</div><p class="lead">The Seminyak villas Aley recommends are chosen on three things: a location you can actually walk from, staff who deliver, and privacy that holds up in high season.</p></div><div class="section" style="padding-top:14px;padding-bottom:4px"><div class="eyebrow">Seminyak, answered</div></div><div class="faq"><div class="q"><button type="button" aria-expanded="false">How far is Seminyak from Bali airport (DPS)?</button><div class="a">Around 12 km, but plan 45–75 minutes by car depending on the time of day. Aley's transfers are timed to avoid the worst of the Sunset Road traffic.</div></div><div class="q"><button type="button" aria-expanded="false">Which Seminyak area is best for a luxury stay?</button><div class="a">Petitenget for beachfront and the iconic beach clubs, Oberoi (Eat Street) for walkable dining, and the quieter southern stretch for couples and honeymoons.</div></div><div class="q"><button type="button" aria-expanded="false">Can you secure a sunset table at the most-booked restaurants?</button><div class="a">Yes — that's a core part of the service. Aley books on first-name relationships built over fifteen years, not the same online wait-lists everyone else is on.</div></div><div class="q"><button type="button" aria-expanded="false">Do you arrange experiences outside Seminyak?</button><div class="a">Often — day trips to Uluwatu cliffs, Ubud rice paddies, or a Nusa Lembongan boat day. A full driver and itinerary, returned to your villa by dinner.</div></div></div><div class="section center"><div class="eyebrow">Ready to Begin?</div><h2 class="h2">Your Seminyak trip starts with <i>one message.</i></h2><div class="btn-row"><a class="btn btn-gold btn-block" href="https://wa.me/6282146498343?text=Hi%20Aley%20%E2%80%94%20I%27m%20using%20the%20Aley%20Concierge%20app.%0AWe%27re%20planning%20a%20trip%20to%20Seminyak.%0ADates%3A%20%0AGuests%3A%20%0AWhat%20we%27re%20after%3A%20" target="_blank" rel="noopener">Plan your Seminyak trip</a></div></div></div><div class="dest" id="d-ubud"><div class="dhero"><img src="https://www.aleyconciergebali.com/images/uma-santai-villa.jpg" alt="Uma Santai villa in Ubud with infinity pool" loading="lazy"><div class="cap"><div class="eyebrow">Ubud, Bali</div><h3>Ubud, <i>the way it whispers.</i></h3></div></div><div class="arr"><b>90 min – 2 hrs</b><span>from DPS airport, around 38 km — timed to the lightest possible drive</span></div><div class="section" style="padding-top:22px"><p class="lead">Mist on the rice fields at dawn. Private yoga at the edge of the valley. A temple ceremony with a family Aley has known for years. The Bali interior, arranged with the same care as its coast.</p><p class="lead">Aley arranges Ubud as a stay, not a stop — the right villa above the valley, a yoga teacher who comes to you, a private guide for the temples and rice fields, a chef who can plan a week of meals around what's in season.</p></div><div class="section" style="padding-top:10px;padding-bottom:0"><div class="eyebrow">What Aley arranges in Ubud</div></div><div class="list"><div class="li"><div class="glyph">⌂</div><div><h4>Jungle &amp; Valley Villas</h4><p>Private villas perched above the Ayung valley, set into rice fields, or tucked into the jungle — staffed, serene, and properly cared for.</p></div></div><div class="li"><div class="glyph">✈</div><div><h4>Airport Transfers</h4><p>VIP meet-and-greet at DPS, fast-track where available, private vehicle to Ubud.</p></div></div><div class="li"><div class="glyph">☽</div><div><h4>Private Yoga &amp; Wellness</h4><p>Senior teachers brought to your villa for daily practice. In-villa massages, sound healing, traditional Balinese spa rituals.</p></div></div><div class="li"><div class="glyph">♨</div><div><h4>Private Chef</h4><p>Plant-forward menus, traditional Balinese feasts, or a quiet fine-dining tasting at the edge of the valley — all in-villa.</p></div></div><div class="li"><div class="glyph">⌃</div><div><h4>Cultural Experiences</h4><p>Private temple visits, blessing ceremonies, rice-field walks with a local guide, traditional dance arranged ahead of the crowds.</p></div></div><div class="li"><div class="glyph">◈</div><div><h4>VIP Transport</h4><p>Professional drivers for day trips to volcanoes, waterfalls, the north coast — and the best Ubud restaurants tucked off the main road.</p></div></div></div><div class="section" style="padding-bottom:6px"><div class="eyebrow">Featured stay</div><p class="lead">Uma Santai — where Ubud goes still. Sweeping valley views, infinity pool, lush gardens: the villa Aley reaches for when guests describe wanting "quiet".</p></div><div class="section" style="padding-top:14px;padding-bottom:4px"><div class="eyebrow">Ubud, answered</div></div><div class="faq"><div class="q"><button type="button" aria-expanded="false">How far is Ubud from Bali airport (DPS)?</button><div class="a">Around 38 km, but plan 90 minutes to two hours by car depending on traffic. Aley's transfers are timed to the lightest possible drive.</div></div><div class="q"><button type="button" aria-expanded="false">How long should I stay in Ubud?</button><div class="a">Aley generally suggests four to seven nights — long enough for daily yoga, a temple ceremony, a rice-field walk and a day trip or two. Ubud rewards slowness.</div></div><div class="q"><button type="button" aria-expanded="false">Can you arrange a private temple ceremony or blessing?</button><div class="a">Yes — through families and priests Aley has worked with for fifteen years. Arranged respectfully, with proper attire and protocol, never as a tourist set-piece.</div></div><div class="q"><button type="button" aria-expanded="false">Is Ubud good for families?</button><div class="a">Excellent — but the right villa makes the difference. Compounds with kid-safe pools, drivers patient with little ones, and chefs who can cook for picky eaters.</div></div></div><div class="section center"><div class="eyebrow">Ready to Begin?</div><h2 class="h2">Your Ubud trip starts with <i>one message.</i></h2><div class="btn-row"><a class="btn btn-gold btn-block" href="https://wa.me/6282146498343?text=Hi%20Aley%20%E2%80%94%20I%27m%20using%20the%20Aley%20Concierge%20app.%0AWe%27re%20planning%20a%20trip%20to%20Ubud.%0ADates%3A%20%0AGuests%3A%20%0AWhat%20we%27re%20after%3A%20" target="_blank" rel="noopener">Plan your Ubud trip</a></div></div></div><div class="dest active" id="d-canggu"><div class="dhero"><img src="https://www.aleyconciergebali.com/images/casa-bumbak-villa.jpg" alt="Casa Bumbak villa in Canggu" loading="lazy"><div class="cap"><div class="eyebrow">Canggu, Bali</div><h3>Canggu, <i>without the noise.</i></h3></div></div><div class="arr"><b>60–90 min</b><span>from DPS airport, around 18 km depending on traffic and neighbourhood</span></div><div class="section" style="padding-top:22px"><p class="lead">Surf at dawn. Brunch on Batu Bolong. Sunset at a hidden beach club. Aley handles every detail — from your villa in Berawa to the private driver who knows the back roads.</p><p class="lead">Aley has placed hundreds of guests across Canggu's neighbourhoods — Berawa, Echo Beach, Pererenan, Babakan — and the difference between a great trip and a frustrating one usually comes down to the local details.</p></div><div class="section" style="padding-top:10px;padding-bottom:0"><div class="eyebrow">What Aley arranges in Canggu</div></div><div class="list"><div class="li"><div class="glyph">⌂</div><div><h4>Private Villas</h4><p>Hand-selected villas across Berawa, Echo Beach and Pererenan — from intimate two-bedroom retreats to full-staff family compounds.</p></div></div><div class="li"><div class="glyph">✈</div><div><h4>Airport Transfers</h4><p>VIP meet-and-greet at DPS, fast-track immigration where available, and a private vehicle straight to your villa.</p></div></div><div class="li"><div class="glyph">♨</div><div><h4>Private Chef</h4><p>In-villa Balinese feasts, contemporary tasting menus, or simple healthy bowls for a long stay. Groceries handled, kitchen left spotless.</p></div></div><div class="li"><div class="glyph">≈</div><div><h4>Surf &amp; Wellness</h4><p>Private surf coaches at Batu Bolong and Echo Beach for every level. Private yoga, massage and spa brought to your villa.</p></div></div><div class="li"><div class="glyph">◈</div><div><h4>VIP Transport</h4><p>Professional drivers for day trips to Ubud, Uluwatu or temple visits — and the dinner reservations the apps never get right.</p></div></div><div class="li"><div class="glyph">✦</div><div><h4>Bespoke Access</h4><p>Reservations at Canggu's hardest-to-book restaurants, beach club day-bed access and private invitations earned over 15 years.</p></div></div></div><div class="section" style="padding-bottom:6px"><div class="eyebrow">Featured stay</div><p class="lead">Casa Bumbak — Canggu's quiet luxury. Private pool, full staff, walking distance to the best of Berawa without the through-traffic.</p></div><div class="section" style="padding-top:14px;padding-bottom:4px"><div class="eyebrow">Canggu, answered</div></div><div class="faq"><div class="q"><button type="button" aria-expanded="false">How far is Canggu from Bali airport (DPS)?</button><div class="a">Around 18 km, but expect 60–90 minutes by car depending on traffic and exact neighbourhood. Aley's private transfers take the fastest route at any hour.</div></div><div class="q"><button type="button" aria-expanded="false">Which Canggu neighbourhood should I stay in?</button><div class="a">Berawa is polished and walkable, Echo Beach is for surfers and sunsets, Pererenan is quieter and more residential, and Babakan keeps you close to rice paddies. Aley matches the area to how you actually want your trip to feel.</div></div><div class="q"><button type="button" aria-expanded="false">Can you arrange private surf coaching for beginners?</button><div class="a">Yes — Aley works with experienced local instructors for all levels, from first-time stand-ups at Batu Bolong to advanced sessions at Echo Beach and beyond.</div></div><div class="q"><button type="button" aria-expanded="false">Do you handle restaurant reservations and beach club bookings?</button><div class="a">That's the core of the concierge service. Tables at the hardest-to-book Canggu restaurants, day beds at the better beach clubs, and dinner timing planned around traffic.</div></div></div><div class="section center"><div class="eyebrow">Ready to Begin?</div><h2 class="h2">Your Canggu trip starts with <i>one message.</i></h2><div class="btn-row"><a class="btn btn-gold btn-block" href="https://wa.me/6282146498343?text=Hi%20Aley%20%E2%80%94%20I%27m%20using%20the%20Aley%20Concierge%20app.%0AWe%27re%20planning%20a%20trip%20to%20Canggu.%0ADates%3A%20%0AGuests%3A%20%0AWhat%20we%27re%20after%3A%20" target="_blank" rel="noopener">Plan your Canggu trip</a></div></div></div><div class="dest" id="d-seminyak"><div class="dhero"><img src="https://www.aleyconciergebali.com/images/private-villa.jpg" alt="Luxury private villa in Seminyak" loading="lazy"><div class="cap"><div class="eyebrow">Seminyak, Bali</div><h3>Seminyak, <i>done properly.</i></h3></div></div><div class="arr"><b>45–75 min</b><span>from DPS airport, around 12 km — timed to avoid the worst of Sunset Road</span></div><div class="section" style="padding-top:22px"><p class="lead">Beachfront sunsets at Petitenget. Fine dining at the island's best tables. Hand-picked villas a short walk from Eat Street. Aley arranges every piece — and the parts you didn't think to ask for.</p><p class="lead">Aley has spent fifteen years getting Seminyak's small details right — the sunset table, the right driver, the villa where the air-con actually works on a hot February afternoon.</p></div><div class="section" style="padding-top:10px;padding-bottom:0"><div class="eyebrow">What Aley arranges in Seminyak</div></div><div class="list"><div class="li"><div class="glyph">⌂</div><div><h4>Luxury Villas</h4><p>Beachfront and walkable villas across Petitenget, Oberoi and the Seminyak square — fully staffed, privacy assured, vetted in person.</p></div></div><div class="li"><div class="glyph">✈</div><div><h4>Airport Transfers</h4><p>VIP meet-and-greet at DPS, fast-track where available, private vehicle to your Seminyak address.</p></div></div><div class="li"><div class="glyph">♨</div><div><h4>Private Chef</h4><p>From a Balinese rijsttafel for ten to a quiet anniversary tasting menu for two — chefs Aley has worked with for years.</p></div></div><div class="li"><div class="glyph">☼</div><div><h4>Beach Club Access</h4><p>Day beds at the Seminyak beach clubs that actually deliver, with sunset timing booked around the day's tide and crowd.</p></div></div><div class="li"><div class="glyph">◈</div><div><h4>VIP Transport</h4><p>Professional drivers for shopping circuits, day trips to Uluwatu or Ubud, and dinner reservations across town.</p></div></div><div class="li"><div class="glyph">✦</div><div><h4>Fine Dining</h4><p>Tables at Seminyak's hardest-to-book restaurants — including the chef's table seats the booking sites never see.</p></div></div></div><div class="section" style="padding-bottom:6px"><div class="eyebrow">Featured stay</div><p class="lead">The Seminyak villas Aley recommends are chosen on three things: a location you can actually walk from, staff who deliver, and privacy that holds up in high season.</p></div><div class="section" style="padding-top:14px;padding-bottom:4px"><div class="eyebrow">Seminyak, answered</div></div><div class="faq"><div class="q"><button type="button" aria-expanded="false">How far is Seminyak from Bali airport (DPS)?</button><div class="a">Around 12 km, but plan 45–75 minutes by car depending on the time of day. Aley's transfers are timed to avoid the worst of the Sunset Road traffic.</div></div><div class="q"><button type="button" aria-expanded="false">Which Seminyak area is best for a luxury stay?</button><div class="a">Petitenget for beachfront and the iconic beach clubs, Oberoi (Eat Street) for walkable dining, and the quieter southern stretch for couples and honeymoons.</div></div><div class="q"><button type="button" aria-expanded="false">Can you secure a sunset table at the most-booked restaurants?</button><div class="a">Yes — that's a core part of the service. Aley books on first-name relationships built over fifteen years, not the same online wait-lists everyone else is on.</div></div><div class="q"><button type="button" aria-expanded="false">Do you arrange experiences outside Seminyak?</button><div class="a">Often — day trips to Uluwatu cliffs, Ubud rice paddies, or a Nusa Lembongan boat day. A full driver and itinerary, returned to your villa by dinner.</div></div></div><div class="section center"><div class="eyebrow">Ready to Begin?</div><h2 class="h2">Your Seminyak trip starts with <i>one message.</i></h2><div class="btn-row"><a class="btn btn-gold btn-block" href="https://wa.me/6282146498343?text=Hi%20Aley%20%E2%80%94%20I%27m%20using%20the%20Aley%20Concierge%20app.%0AWe%27re%20planning%20a%20trip%20to%20Seminyak.%0ADates%3A%20%0AGuests%3A%20%0AWhat%20we%27re%20after%3A%20" target="_blank" rel="noopener">Plan your Seminyak trip</a></div></div></div><div class="dest" id="d-ubud"><div class="dhero"><img src="https://www.aleyconciergebali.com/images/uma-santai-villa.jpg" alt="Uma Santai villa in Ubud with infinity pool" loading="lazy"><div class="cap"><div class="eyebrow">Ubud, Bali</div><h3>Ubud, <i>the way it whispers.</i></h3></div></div><div class="arr"><b>90 min – 2 hrs</b><span>from DPS airport, around 38 km — timed to the lightest possible drive</span></div><div class="section" style="padding-top:22px"><p class="lead">Mist on the rice fields at dawn. Private yoga at the edge of the valley. A temple ceremony with a family Aley has known for years. The Bali interior, arranged with the same care as its coast.</p><p class="lead">Aley arranges Ubud as a stay, not a stop — the right villa above the valley, a yoga teacher who comes to you, a private guide for the temples and rice fields, a chef who can plan a week of meals around what's in season.</p></div><div class="section" style="padding-top:10px;padding-bottom:0"><div class="eyebrow">What Aley arranges in Ubud</div></div><div class="list"><div class="li"><div class="glyph">⌂</div><div><h4>Jungle &amp; Valley Villas</h4><p>Private villas perched above the Ayung valley, set into rice fields, or tucked into the jungle — staffed, serene, and properly cared for.</p></div></div><div class="li"><div class="glyph">✈</div><div><h4>Airport Transfers</h4><p>VIP meet-and-greet at DPS, fast-track where available, private vehicle to Ubud.</p></div></div><div class="li"><div class="glyph">☽</div><div><h4>Private Yoga &amp; Wellness</h4><p>Senior teachers brought to your villa for daily practice. In-villa massages, sound healing, traditional Balinese spa rituals.</p></div></div><div class="li"><div class="glyph">♨</div><div><h4>Private Chef</h4><p>Plant-forward menus, traditional Balinese feasts, or a quiet fine-dining tasting at the edge of the valley — all in-villa.</p></div></div><div class="li"><div class="glyph">⌃</div><div><h4>Cultural Experiences</h4><p>Private temple visits, blessing ceremonies, rice-field walks with a local guide, traditional dance arranged ahead of the crowds.</p></div></div><div class="li"><div class="glyph">◈</div><div><h4>VIP Transport</h4><p>Professional drivers for day trips to volcanoes, waterfalls, the north coast — and the best Ubud restaurants tucked off the main road.</p></div></div></div><div class="section" style="padding-bottom:6px"><div class="eyebrow">Featured stay</div><p class="lead">Uma Santai — where Ubud goes still. Sweeping valley views, infinity pool, lush gardens: the villa Aley reaches for when guests describe wanting "quiet".</p></div><div class="section" style="padding-top:14px;padding-bottom:4px"><div class="eyebrow">Ubud, answered</div></div><div class="faq"><div class="q"><button type="button" aria-expanded="false">How far is Ubud from Bali airport (DPS)?</button><div class="a">Around 38 km, but plan 90 minutes to two hours by car depending on traffic. Aley's transfers are timed to the lightest possible drive.</div></div><div class="q"><button type="button" aria-expanded="false">How long should I stay in Ubud?</button><div class="a">Aley generally suggests four to seven nights — long enough for daily yoga, a temple ceremony, a rice-field walk and a day trip or two. Ubud rewards slowness.</div></div><div class="q"><button type="button" aria-expanded="false">Can you arrange a private temple ceremony or blessing?</button><div class="a">Yes — through families and priests Aley has worked with for fifteen years. Arranged respectfully, with proper attire and protocol, never as a tourist set-piece.</div></div><div class="q"><button type="button" aria-expanded="false">Is Ubud good for families?</button><div class="a">Excellent — but the right villa makes the difference. Compounds with kid-safe pools, drivers patient with little ones, and chefs who can cook for picky eaters.</div></div></div><div class="section center"><div class="eyebrow">Ready to Begin?</div><h2 class="h2">Your Ubud trip starts with <i>one message.</i></h2><div class="btn-row"><a class="btn btn-gold btn-block" href="https://wa.me/6282146498343?text=Hi%20Aley%20%E2%80%94%20I%27m%20using%20the%20Aley%20Concierge%20app.%0AWe%27re%20planning%20a%20trip%20to%20Ubud.%0ADates%3A%20%0AGuests%3A%20%0AWhat%20we%27re%20after%3A%20" target="_blank" rel="noopener">Plan your Ubud trip</a></div></div></div></div>
+</section>
+
+<!-- ================= PLAN ================= -->
+<section class="panel" id="p-plan" role="tabpanel">
+  <div class="section">
+    <div class="eyebrow">Plan Your Trip</div>
+    <h2 class="h2">Tell Aley what you're <i>dreaming of.</i></h2>
+    <p class="lead">Fill in what you know — leave the rest. This builds a WhatsApp message to Aley; nothing is stored, and a real person replies.</p>
+  </div>
+  <form id="planForm" novalidate="">
+    <div class="f"><label class="l" for="name">Your name</label><input class="in" id="name" name="name" type="text" autocomplete="name" placeholder="e.g. Sarah &amp; James"></div>
+    <div class="row2">
+      <div class="f"><label class="l" for="arrive">Arriving</label><input class="in" id="arrive" name="arrive" type="date"></div>
+      <div class="f"><label class="l" for="depart">Departing</label><input class="in" id="depart" name="depart" type="date"></div>
+    </div>
+    <div class="row2">
+      <div class="f"><label class="l" for="adults">Adults</label><select class="in" id="adults" name="adults"><option>1</option><option selected="">2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10+</option></select></div>
+      <div class="f"><label class="l" for="kids">Children</label><select class="in" id="kids" name="kids"><option selected="">0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5+</option></select></div>
+    </div>
+    <div class="f"><label class="l" for="area">Where in Bali</label><select class="in" id="area" name="area"><option value="">Not sure yet — Aley can advise</option><option>Canggu</option><option>Seminyak</option><option>Ubud</option><option>Uluwatu / Bukit</option><option>Nusa Dua / Sanur</option><option>Somewhere else</option></select></div>
+    <div class="f"><label class="l">I'd like help with</label>
+      <div class="chips" id="needs">
+        <label class="chip"><input type="checkbox" value="Private villa"><span>Private villa</span></label>
+        <label class="chip"><input type="checkbox" value="Airport transfer"><span>Airport transfer</span></label>
+        <label class="chip"><input type="checkbox" value="Private chef"><span>Private chef</span></label>
+        <label class="chip"><input type="checkbox" value="Wellness &amp; yoga"><span>Wellness &amp; yoga</span></label>
+        <label class="chip"><input type="checkbox" value="VIP transport / day trips"><span>Transport</span></label>
+        <label class="chip"><input type="checkbox" value="Restaurant &amp; beach club bookings"><span>Dining &amp; beach clubs</span></label>
+        <label class="chip"><input type="checkbox" value="Bespoke experiences"><span>Experiences</span></label>
+        <label class="chip"><input type="checkbox" value="Honeymoon / special occasion"><span>Special occasion</span></label>
+      </div>
+    </div>
+    <div class="f"><label class="l" for="notes">Anything else</label><textarea class="in" id="notes" name="notes" placeholder="Surf, food, family, a quiet week, an anniversary dinner… the more you share, the better the plan."></textarea></div>
+    <div class="btn-row" style="margin-top:6px">
+      <button type="submit" class="btn btn-gold btn-block">Send to Aley on WhatsApp</button>
+      <button type="button" class="btn btn-outline btn-block" id="emailPlan">Send by Email instead</button>
+    </div>
+    <p class="hint">Prefer to just talk? <a href="https://wa.me/6282146498343" target="_blank" rel="noopener">Open WhatsApp</a> or call <a href="tel:+6282146498343">+62 821 4649 8343</a>.</p>
+  </form>
+  <div class="prev" id="preview"><div class="k">Message preview</div><div id="previewText"></div></div>
+</section>
+
+<!-- ================= MORE ================= -->
+<section class="panel" id="p-more" role="tabpanel">
+  <div class="section">
+    <div class="eyebrow">Meet Aley</div>
+    <h2 class="h2">Not a platform. <i>A person.</i></h2>
+  </div>
+  <div class="about">
+    <div class="im"><img src="https://www.aleyconciergebali.com/images/aley-concierge-about.jpg" alt="Portrait of Aley, founder of Aley Concierge, in Bali" loading="lazy"></div>
+    <div class="b">
+      <p>Aley has called Bali home for over 15 years. What began as a passion for sharing the island's hidden beauty with visitors has grown into Bali's most trusted personal concierge service.</p>
+      <p>Every recommendation comes from genuine experience. Every villa has been personally stayed in. Every restaurant personally eaten at. When Aley tells you something is the best — it is.</p>
+      <div class="btn-row"><a class="btn btn-gold btn-block" href="https://wa.me/6282146498343" target="_blank" rel="noopener">Message Aley Directly</a></div>
+    </div>
+  </div>
+
+  <div class="section" style="padding-bottom:12px">
+    <div class="eyebrow">Bali Essentials</div>
+    <h2 class="h2">Good to <i>know.</i></h2>
+  </div>
+  <div class="ess">
+    <div class="r"><span>Time zone</span><b>WITA · UTC+8 (no daylight saving)</b></div>
+    <div class="r"><span>Airport</span><b>Ngurah Rai International (DPS)</b></div>
+    <div class="r"><span>Currency</span><b>Indonesian Rupiah (IDR)</b></div>
+    <div class="r"><span>Power</span><b>230V · Type C / F plugs</b></div>
+    <div class="r"><span>Emergency</span><b><a href="tel:112">112</a> · Ambulance <a href="tel:118">118</a> · Police <a href="tel:110">110</a></b></div>
+    <div class="r"><span>Dress for temples</span><b>Sarong &amp; sash — Aley will arrange</b></div>
+    <div class="r"><span>Aley's base</span><b>Kerobokan, Bali</b></div>
+  </div>
+
+  <div class="section" style="padding-bottom:12px">
+    <div class="eyebrow">A Few Words</div>
+    <h2 class="h2">Speak a little <i>Bahasa.</i></h2>
+  </div>
+  <div class="phr">
+    <div><b>Selamat pagi</b><span>Good morning</span></div>
+    <div><b>Terima kasih</b><span>Thank you</span></div>
+    <div><b>Suksma</b><span>Thank you (Balinese)</span></div>
+    <div><b>Tolong</b><span>Please / help</span></div>
+    <div><b>Enak sekali</b><span>Delicious</span></div>
+    <div><b>Sampai jumpa</b><span>See you again</span></div>
+  </div>
+
+  <div class="section" style="padding-bottom:12px">
+    <div class="eyebrow">Keep Aley Close</div>
+    <h2 class="h2">Add to your <i>home screen.</i></h2>
+  </div>
+  <div class="inst" id="instIOS">
+    <h3>On iPhone</h3>
+    <ol><li>Open this page in <b>Safari</b></li><li>Tap the <b>Share</b> button (square with arrow)</li><li>Choose <b>Add to Home Screen</b>, then <b>Add</b></li></ol>
+  </div>
+  <div class="inst" id="instAndroid" style="margin-top:12px">
+    <h3>On Android</h3>
+    <ol><li>Open this page in <b>Chrome</b></li><li>Tap the <b>⋮</b> menu, then <b>Install app</b> or <b>Add to Home screen</b></li></ol>
+    <button class="btn btn-gold" id="installBtn2">Install now</button>
+  </div>
+  <div class="btn-row wrap" style="margin-top:18px">
+    <button class="btn btn-gold-outline btn-block" id="shareBtn">Share this app</button>
+    <a class="btn btn-outline btn-block" href="https://www.aleyconciergebali.com/" target="_blank" rel="noopener">Visit aleyconciergebali.com</a>
+  </div>
+
+  <footer>
+    © <span id="yr">2026</span> Aley Concierge · Kerobokan, Bali, Indonesia<br>
+    <a href="https://wa.me/6282146498343" target="_blank" rel="noopener">WhatsApp</a> · <a href="mailto:aleyconcierge@gmail.com">Email</a> · <a href="https://www.aleyconciergebali.com/" target="_blank" rel="noopener">Website</a><br>
+    <span style="opacity:.6">Guest app by <a href="https://lumindra.co/" target="_blank" rel="noopener">Bali AI Consultant</a></span>
+  </footer>
+</section>
+
+</main>
+
+<div class="bar">
+  <a class="btn btn-gold" href="https://wa.me/6282146498343?text=Hi%20Aley%20%E2%80%94%20I%27m%20using%20the%20Aley%20Concierge%20app%20and%20would%20love%20some%20help%20planning%20our%20time%20in%20Bali." target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.1-1.8-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.4-.5c.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5-.1-.1-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.1-.3-.2-.6-.4zM12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2z"></path></svg>
+    WhatsApp Aley
+  </a>
+  <button class="btn btn-outline" data-go="plan">Plan my trip</button>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<div class="shfb" id="shareSheet"><div class="sh-in"><h3>Share Aley Concierge</h3>
+<a class="btn btn-gold btn-block" id="shWa" target="_blank" rel="noopener">Share on WhatsApp</a>
+<button type="button" class="btn btn-gold-outline btn-block" id="shCopy">Copy link</button>
+<button type="button" class="btn btn-outline btn-block" id="shClose">Close</button></div></div>
+<script>
+(function(){
+'use strict';
+var WA='6282146498343', EMAIL='aleyconcierge@gmail.com', SITE='https://www.aleyconciergebali.com/images/';
+var INTRO='Hi Aley — I\'m using the Aley Concierge app.';
+function wa(msg){return 'https://wa.me/'+WA+'?text='+encodeURIComponent(msg);}
+function $(s,c){return (c||document).querySelector(s);} function $$(s,c){return Array.prototype.slice.call((c||document).querySelectorAll(s));}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+
+/* ---------- Content ---------- */
+var SERVICES=[
+ {g:'✈',t:'Airport Transfers',cta:'Arrange a transfer',d:'VIP meet & greet, private luxury vehicles, seamless arrivals and departures.',img:'airport-meet-greet.jpg',alt:'VIP airport meet and greet service in Bali with luxury vehicle',msg:INTRO+'\nI\'d like to arrange a VIP airport transfer.\nArrival date & flight: \nGuests: \nGoing to: '},
+ {g:'⌂',t:'Private Villas',cta:'Find my villa',d:'Hand-selected luxury villas with personal recommendations based on your style and needs.',img:'private-villa.jpg',alt:'Private luxury villa in Bali with tropical garden',msg:INTRO+'\nI\'m looking for a private villa.\nDates: \nGuests: \nArea (Canggu / Seminyak / Ubud / not sure): \nStyle we love: '},
+ {g:'♨',t:'Private Chef',cta:'Book a private chef',d:'In-villa dining experiences with top Balinese chefs — from traditional feasts to fine dining.',img:'private-chef.jpg',alt:'Private chef preparing in-villa Balinese fine dining',msg:INTRO+'\nWe\'d love to book a private chef.\nDate(s): \nGuests: \nCuisine / dietary notes: '},
+ {g:'☽',t:'Wellness & Yoga',cta:'Book wellness',d:'Private yoga sessions, spa treatments and wellness retreats curated for your journey.',img:'private-yoga.jpg',alt:'Private yoga session in a Bali villa pavilion',msg:INTRO+'\nWe\'re interested in private yoga / wellness at our villa.\nDates: \nGuests: \nWhat we\'re after: '},
+ {g:'◈',t:'VIP Transport',cta:'Book a driver',d:'Luxury vehicles and professional drivers for island excursions and day trips.',img:'vip-transport.jpg',alt:'VIP private transport with professional driver in Bali',msg:INTRO+'\nI\'d like a private driver / day trip.\nDate: \nGuests: \nWhere we\'d like to go: '},
+ {g:'✦',t:'Bespoke Experiences',cta:'Ask about experiences',d:'From private temple ceremonies to hidden waterfalls — Aley opens doors that apps can\'t.',img:'bespoke-experiences.jpg',alt:'Bespoke Bali experience at a hidden temple ceremony',msg:INTRO+'\nWe\'d love a bespoke experience (temple ceremony, waterfalls, hidden Bali).\nDates: \nGuests: \nIdeas so far: '}
+];
+
+var DEST={
+ canggu:{name:'Canggu',eyebrow:'Canggu, Bali',h:'Canggu, <i>without the noise.</i>',img:'casa-bumbak-villa.jpg',alt:'Casa Bumbak villa in Canggu',
+  intro:['Surf at dawn. Brunch on Batu Bolong. Sunset at a hidden beach club. Aley handles every detail — from your villa in Berawa to the private driver who knows the back roads.','Aley has placed hundreds of guests across Canggu\'s neighbourhoods — Berawa, Echo Beach, Pererenan, Babakan — and the difference between a great trip and a frustrating one usually comes down to the local details.'],
+  drive:'60–90 min',driveNote:'from DPS airport, around 18 km depending on traffic and neighbourhood',
+  items:[['⌂','Private Villas','Hand-selected villas across Berawa, Echo Beach and Pererenan — from intimate two-bedroom retreats to full-staff family compounds.'],['✈','Airport Transfers','VIP meet-and-greet at DPS, fast-track immigration where available, and a private vehicle straight to your villa.'],['♨','Private Chef','In-villa Balinese feasts, contemporary tasting menus, or simple healthy bowls for a long stay. Groceries handled, kitchen left spotless.'],['≈','Surf & Wellness','Private surf coaches at Batu Bolong and Echo Beach for every level. Private yoga, massage and spa brought to your villa.'],['◈','VIP Transport','Professional drivers for day trips to Ubud, Uluwatu or temple visits — and the dinner reservations the apps never get right.'],['✦','Bespoke Access','Reservations at Canggu\'s hardest-to-book restaurants, beach club day-bed access and private invitations earned over 15 years.']],
+  faq:[['How far is Canggu from Bali airport (DPS)?','Around 18 km, but expect 60–90 minutes by car depending on traffic and exact neighbourhood. Aley\'s private transfers take the fastest route at any hour.'],['Which Canggu neighbourhood should I stay in?','Berawa is polished and walkable, Echo Beach is for surfers and sunsets, Pererenan is quieter and more residential, and Babakan keeps you close to rice paddies. Aley matches the area to how you actually want your trip to feel.'],['Can you arrange private surf coaching for beginners?','Yes — Aley works with experienced local instructors for all levels, from first-time stand-ups at Batu Bolong to advanced sessions at Echo Beach and beyond.'],['Do you handle restaurant reservations and beach club bookings?','That\'s the core of the concierge service. Tables at the hardest-to-book Canggu restaurants, day beds at the better beach clubs, and dinner timing planned around traffic.']],
+  villa:'Casa Bumbak — Canggu\'s quiet luxury. Private pool, full staff, walking distance to the best of Berawa without the through-traffic.'},
+ seminyak:{name:'Seminyak',eyebrow:'Seminyak, Bali',h:'Seminyak, <i>done properly.</i>',img:'private-villa.jpg',alt:'Luxury private villa in Seminyak',
+  intro:['Beachfront sunsets at Petitenget. Fine dining at the island\'s best tables. Hand-picked villas a short walk from Eat Street. Aley arranges every piece — and the parts you didn\'t think to ask for.','Aley has spent fifteen years getting Seminyak\'s small details right — the sunset table, the right driver, the villa where the air-con actually works on a hot February afternoon.'],
+  drive:'45–75 min',driveNote:'from DPS airport, around 12 km — timed to avoid the worst of Sunset Road',
+  items:[['⌂','Luxury Villas','Beachfront and walkable villas across Petitenget, Oberoi and the Seminyak square — fully staffed, privacy assured, vetted in person.'],['✈','Airport Transfers','VIP meet-and-greet at DPS, fast-track where available, private vehicle to your Seminyak address.'],['♨','Private Chef','From a Balinese rijsttafel for ten to a quiet anniversary tasting menu for two — chefs Aley has worked with for years.'],['☼','Beach Club Access','Day beds at the Seminyak beach clubs that actually deliver, with sunset timing booked around the day\'s tide and crowd.'],['◈','VIP Transport','Professional drivers for shopping circuits, day trips to Uluwatu or Ubud, and dinner reservations across town.'],['✦','Fine Dining','Tables at Seminyak\'s hardest-to-book restaurants — including the chef\'s table seats the booking sites never see.']],
+  faq:[['How far is Seminyak from Bali airport (DPS)?','Around 12 km, but plan 45–75 minutes by car depending on the time of day. Aley\'s transfers are timed to avoid the worst of the Sunset Road traffic.'],['Which Seminyak area is best for a luxury stay?','Petitenget for beachfront and the iconic beach clubs, Oberoi (Eat Street) for walkable dining, and the quieter southern stretch for couples and honeymoons.'],['Can you secure a sunset table at the most-booked restaurants?','Yes — that\'s a core part of the service. Aley books on first-name relationships built over fifteen years, not the same online wait-lists everyone else is on.'],['Do you arrange experiences outside Seminyak?','Often — day trips to Uluwatu cliffs, Ubud rice paddies, or a Nusa Lembongan boat day. A full driver and itinerary, returned to your villa by dinner.']],
+  villa:'The Seminyak villas Aley recommends are chosen on three things: a location you can actually walk from, staff who deliver, and privacy that holds up in high season.'},
+ ubud:{name:'Ubud',eyebrow:'Ubud, Bali',h:'Ubud, <i>the way it whispers.</i>',img:'uma-santai-villa.jpg',alt:'Uma Santai villa in Ubud with infinity pool',
+  intro:['Mist on the rice fields at dawn. Private yoga at the edge of the valley. A temple ceremony with a family Aley has known for years. The Bali interior, arranged with the same care as its coast.','Aley arranges Ubud as a stay, not a stop — the right villa above the valley, a yoga teacher who comes to you, a private guide for the temples and rice fields, a chef who can plan a week of meals around what\'s in season.'],
+  drive:'90 min – 2 hrs',driveNote:'from DPS airport, around 38 km — timed to the lightest possible drive',
+  items:[['⌂','Jungle & Valley Villas','Private villas perched above the Ayung valley, set into rice fields, or tucked into the jungle — staffed, serene, and properly cared for.'],['✈','Airport Transfers','VIP meet-and-greet at DPS, fast-track where available, private vehicle to Ubud.'],['☽','Private Yoga & Wellness','Senior teachers brought to your villa for daily practice. In-villa massages, sound healing, traditional Balinese spa rituals.'],['♨','Private Chef','Plant-forward menus, traditional Balinese feasts, or a quiet fine-dining tasting at the edge of the valley — all in-villa.'],['⌃','Cultural Experiences','Private temple visits, blessing ceremonies, rice-field walks with a local guide, traditional dance arranged ahead of the crowds.'],['◈','VIP Transport','Professional drivers for day trips to volcanoes, waterfalls, the north coast — and the best Ubud restaurants tucked off the main road.']],
+  faq:[['How far is Ubud from Bali airport (DPS)?','Around 38 km, but plan 90 minutes to two hours by car depending on traffic. Aley\'s transfers are timed to the lightest possible drive.'],['How long should I stay in Ubud?','Aley generally suggests four to seven nights — long enough for daily yoga, a temple ceremony, a rice-field walk and a day trip or two. Ubud rewards slowness.'],['Can you arrange a private temple ceremony or blessing?','Yes — through families and priests Aley has worked with for fifteen years. Arranged respectfully, with proper attire and protocol, never as a tourist set-piece.'],['Is Ubud good for families?','Excellent — but the right villa makes the difference. Compounds with kid-safe pools, drivers patient with little ones, and chefs who can cook for picky eaters.']],
+  villa:'Uma Santai — where Ubud goes still. Sweeping valley views, infinity pool, lush gardens: the villa Aley reaches for when guests describe wanting "quiet".'}
+};
+
+/* ---------- Render services ---------- */
+var hs=$('#homeServices'), sl=$('#serviceList');
+SERVICES.forEach(function(s){
+  hs.insertAdjacentHTML('beforeend','<a class="mini" href="#services" data-go="services"><div class="im"><img src="'+SITE+s.img+'" alt="'+esc(s.alt)+'" loading="lazy"></div><div class="b"><div class="glyph">'+s.g+'</div><h3>'+esc(s.t)+'</h3><p>'+esc(s.d)+'</p></div></a>');
+  sl.insertAdjacentHTML('beforeend','<article class="svc"><div class="im"><img src="'+SITE+s.img+'" alt="'+esc(s.alt)+'" loading="lazy"><div class="glyph">'+s.g+'</div></div><div class="b"><h3>'+esc(s.t)+'</h3><p>'+esc(s.d)+'</p><a class="btn btn-gold btn-block" href="'+wa(s.msg)+'" target="_blank" rel="noopener">'+esc(s.cta)+'</a></div></article>');
+});
+
+/* ---------- Render destinations ---------- */
+var dw=$('#destWrap');
+Object.keys(DEST).forEach(function(k){
+  var d=DEST[k];
+  var items=d.items.map(function(i){return '<div class="li"><div class="glyph">'+i[0]+'</div><div><h4>'+esc(i[1])+'</h4><p>'+esc(i[2])+'</p></div></div>';}).join('');
+  var faq=d.faq.map(function(q){return '<div class="q"><button type="button" aria-expanded="false">'+esc(q[0])+'</button><div class="a">'+esc(q[1])+'</div></div>';}).join('');
+  dw.insertAdjacentHTML('beforeend',
+   '<div class="dest'+(k==='canggu'?' active':'')+'" id="d-'+k+'">'+
+   '<div class="dhero"><img src="'+SITE+d.img+'" alt="'+esc(d.alt)+'" loading="lazy"><div class="cap"><div class="eyebrow">'+esc(d.eyebrow)+'</div><h3>'+d.h+'</h3></div></div>'+
+   '<div class="arr"><b>'+esc(d.drive)+'</b><span>'+esc(d.driveNote)+'</span></div>'+
+   '<div class="section" style="padding-top:22px"><p class="lead">'+esc(d.intro[0])+'</p><p class="lead">'+esc(d.intro[1])+'</p></div>'+
+   '<div class="section" style="padding-top:10px;padding-bottom:0"><div class="eyebrow">What Aley arranges in '+esc(d.name)+'</div></div><div class="list">'+items+'</div>'+
+   '<div class="section" style="padding-bottom:6px"><div class="eyebrow">Featured stay</div><p class="lead">'+esc(d.villa)+'</p></div>'+
+   '<div class="section" style="padding-top:14px;padding-bottom:4px"><div class="eyebrow">'+esc(d.name)+', answered</div></div><div class="faq">'+faq+'</div>'+
+   '<div class="section center"><div class="eyebrow">Ready to Begin?</div><h2 class="h2">Your '+esc(d.name)+' trip starts with <i>one message.</i></h2><div class="btn-row"><a class="btn btn-gold btn-block" href="'+wa(INTRO+'\nWe\'re planning a trip to '+d.name+'.\nDates: \nGuests: \nWhat we\'re after: ')+'" target="_blank" rel="noopener">Plan your '+esc(d.name)+' trip</a></div></div>'+
+   '</div>');
+});
+$$('.seg button').forEach(function(b){b.addEventListener('click',function(){
+  $$('.seg button').forEach(function(x){x.setAttribute('aria-pressed','false');}); b.setAttribute('aria-pressed','true');
+  $$('.dest').forEach(function(x){x.classList.remove('active');}); $('#d-'+b.dataset.dest).classList.add('active');
+  window.scrollTo({top:$('.seg').offsetTop-120,behavior:'smooth'});
+});});
+document.addEventListener('click',function(e){
+  var q=e.target.closest('.q > button'); if(!q)return;
+  var p=q.parentNode, open=p.classList.toggle('open'); q.setAttribute('aria-expanded',open?'true':'false');
+});
+
+/* ---------- Tabs / routing ---------- */
+var TABS=['home','services','villas','bali','plan','more'];
+function show(tab,push){
+  if(TABS.indexOf(tab)<0)tab='home';
+  $$('.tab').forEach(function(t){t.setAttribute('aria-selected',t.dataset.tab===tab?'true':'false');});
+  $$('.panel').forEach(function(p){p.classList.toggle('active',p.id==='p-'+tab);});
+  var t=$('.tab[data-tab="'+tab+'"]'); if(t&&t.scrollIntoView)t.scrollIntoView({block:'nearest',inline:'center',behavior:'smooth'});
+  if(push!==false){try{history.replaceState(null,'','#'+tab);}catch(e){}}
+  window.scrollTo(0,0);
+}
+document.addEventListener('click',function(e){
+  var t=e.target.closest('.tab'); if(t){show(t.dataset.tab);return;}
+  var g=e.target.closest('[data-go]'); if(g){e.preventDefault();show(g.dataset.go);}
+});
+window.addEventListener('hashchange',function(){show(location.hash.replace('#','')||'home',false);});
+show(location.hash.replace('#','')||'home',false);
+
+/* ---------- Villa galleries ---------- */
+$$('.thumbs').forEach(function(tw){tw.addEventListener('click',function(e){
+  var b=e.target.closest('button'); if(!b)return;
+  $$('button',tw).forEach(function(x){x.classList.remove('on');}); b.classList.add('on');
+  var m=$('#'+tw.dataset.target); m.style.opacity=.4; var im=new Image(); im.onload=function(){m.src=b.dataset.src;m.style.opacity=1;}; im.onerror=function(){m.src=b.dataset.src;m.style.opacity=1;}; im.src=b.dataset.src;
+});});
+
+/* ---------- Bali clock & greeting (WITA, UTC+8) ---------- */
+function tick(){
+  var now=new Date(), h, hm;
+  try{
+    var parts=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Makassar',hour:'2-digit',minute:'2-digit',hour12:false}).formatToParts(now);
+    var o={}; parts.forEach(function(p){o[p.type]=p.value;}); h=parseInt(o.hour,10); hm=o.hour+':'+o.minute;
+  }catch(e){ var u=now.getTime()+now.getTimezoneOffset()*60000+8*3600000; var b=new Date(u); h=b.getHours(); hm=('0'+h).slice(-2)+':'+('0'+b.getMinutes()).slice(-2); }
+  $('#clock').textContent=hm;
+  var g=h<11?['Selamat pagi','Good morning from Bali']:h<15?['Selamat siang','Good day from Bali']:h<18?['Selamat sore','Good afternoon from Bali']:['Selamat malam','Good evening from Bali'];
+  $('#greet').innerHTML=esc(g[0])+'<small>'+esc(g[1])+'</small>';
+}
+tick(); setInterval(tick,30000);
+$('#yr').textContent=new Date().getFullYear();
+
+/* ---------- Plan form ---------- */
+function fmt(d){ if(!d)return ''; var x=new Date(d+'T00:00:00'); if(isNaN(x))return d; return x.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}); }
+function build(){
+  var f=$('#planForm'), name=f.name.value.trim(), a=f.arrive.value, dpt=f.depart.value, adults=f.adults.value, kids=f.kids.value, area=f.area.value, notes=f.notes.value.trim();
+  var needs=$$('#needs input:checked').map(function(c){return c.value;});
+  var nights=''; if(a&&dpt){var n=Math.round((new Date(dpt)-new Date(a))/86400000); if(n>0)nights=' ('+n+' night'+(n===1?'':'s')+')';}
+  var L=[INTRO];
+  if(name)L.push('Name: '+name);
+  if(a||dpt)L.push('Dates: '+(a?fmt(a):'?')+' → '+(dpt?fmt(dpt):'?')+nights);
+  L.push('Guests: '+adults+' adult'+(adults==='1'?'':'s')+(kids!=='0'?', '+kids+' child'+(kids==='1'?'':'ren'):''));
+  L.push('Area: '+(area||'Not sure yet — open to your advice'));
+  if(needs.length)L.push('Help with: '+needs.join(', '));
+  if(notes)L.push('Notes: '+notes);
+  L.push('Looking forward to hearing from you.');
+  return L.join('\n');
+}
+function preview(){ var p=$('#preview'); $('#previewText').textContent=build(); p.classList.add('show'); }
+$('#planForm').addEventListener('input',preview);
+$('#planForm').addEventListener('change',preview);
+$('#planForm').addEventListener('submit',function(e){e.preventDefault(); var url=wa(build()); var w=window.open(url,'_blank','noopener'); if(!w)location.href=url; toast('Opening WhatsApp…');});
+$('#emailPlan').addEventListener('click',function(){ location.href='mailto:'+EMAIL+'?subject='+encodeURIComponent('Bali enquiry via the Aley Concierge app')+'&body='+encodeURIComponent(build()); });
+
+/* ---------- Share / install ---------- */
+function toast(m){var t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove('show');},2200);}
+$('#shareBtn').addEventListener('click',function(){
+  var url='https://aley-app.netlify.app/?src=share', text='Not a platform. A person. Aley Concierge — your personal Bali concierge in your pocket.';
+  var data={title:'Aley Concierge — Bali Guest App',text:text,url:url};
+  function sheet(){ $('#shWa').href='https://wa.me/?text='+encodeURIComponent(text+'\n'+url); $('#shareSheet').hidden=false; }
+  if(navigator.share){ navigator.share(data).catch(function(e){ if(!e||e.name!=='AbortError') sheet(); }); }
+  else sheet();
+});
+$('#shCopy').addEventListener('click',function(){
+  var url='https://aley-app.netlify.app/?src=share';
+  function done(){toast('Link copied');$('#shareSheet').hidden=true;}
+  if(navigator.clipboard){navigator.clipboard.writeText(url).then(done,function(){prompt('Copy this link',url);});} else {prompt('Copy this link',url);}
+});
+$('#shClose').addEventListener('click',function(){$('#shareSheet').hidden=true;});
+$('#shareSheet').addEventListener('click',function(e){if(e.target.id==='shareSheet')this.hidden=true;});
+var deferred=null, ios=/iphone|ipad|ipod/i.test(navigator.userAgent)&&!window.MSStream, standalone=window.matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
+if(ios){$('#instAndroid').hidden=true;} else {$('#instIOS').hidden=true;}
+if(standalone){$('#instIOS').hidden=true;$('#instAndroid').hidden=true;}
+window.addEventListener('beforeinstallprompt',function(e){
+  e.preventDefault(); deferred=e; $('#installBtn2').hidden=false;
+  try{ if(!localStorage.getItem('aley_install_dismissed')) $('#installBanner').classList.add('show'); }catch(err){ $('#installBanner').classList.add('show'); }
+});
+function doInstall(){ if(!deferred)return; deferred.prompt(); deferred.userChoice.then(function(){deferred=null;$('#installBanner').classList.remove('show');$('#installBtn2').hidden=true;}); }
+$('#installBtn').addEventListener('click',doInstall); $('#installBtn2').addEventListener('click',doInstall);
+$('#installX').addEventListener('click',function(){$('#installBanner').classList.remove('show'); try{localStorage.setItem('aley_install_dismissed','1');}catch(e){}});
+if(ios&&!standalone){ try{ if(!localStorage.getItem('aley_install_dismissed')){ var b=$('#installBanner'); b.querySelector('span').textContent='Add Aley to your home screen: tap Share, then "Add to Home Screen".'; $('#installBtn').textContent='How'; $('#installBtn').addEventListener('click',function(){show('more');setTimeout(function(){$('#instIOS').scrollIntoView({behavior:'smooth',block:'center'});},80);}); b.classList.add('show'); } }catch(e){} }
+
+/* ---------- Service worker ---------- */
+if('serviceWorker' in navigator){ window.addEventListener('load',function(){ navigator.serviceWorker.register('sw.js?v=01OCT-A').catch(function(){}); }); }
+})();
+</script>
+
+
+</body></html>
